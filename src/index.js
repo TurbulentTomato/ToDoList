@@ -18,7 +18,11 @@ const ProjectList = (function() {
 })();
 
 function projectCreator(title) {
-  return { title, list: [listCreator("default")] };
+  let list = [listCreator("default")];
+  const addList = (listTitle) => {
+    list.push(listCreator(listTitle));
+  }
+  return { title, list, addList };
 }
 
 function listCreator(title) {
