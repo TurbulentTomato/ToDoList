@@ -18,7 +18,11 @@ const ProjectList = (function() {
 })();
 
 function projectCreator(title) {
-  return { title, list: [{ title: "default", toDos: [] }] };
+  return { title, list: [listCreator("default")] };
+}
+
+function listCreator(title) {
+  return { title, toDos: [] };
 }
 //attaching functions and other things to window
 //so i can use them in dev-tools console
