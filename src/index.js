@@ -8,7 +8,7 @@ const ProjectList = (function() {
   const addProject = (title) => {
     //creates and pushes a Prpject object that contains
     //title of project and an array to store its topics/lists
-    projects.push({ title, list: [] });
+    projects.push(projectCreator(title));
   }
   const getList = () => {
     console.log(projects);
@@ -17,6 +17,9 @@ const ProjectList = (function() {
   return { addProject, getList };
 })();
 
+function projectCreator(title) {
+  return { title, list: [{ title: "default", toDos: [] }] };
+}
 //attaching functions and other things to window
 //so i can use them in dev-tools console
 window.ProjectList = ProjectList;
