@@ -28,6 +28,12 @@ function projectCreator(title) {
 function listCreator(title) {
   return { title, toDos: [] };
 }
+
+function toDoCreator(info = {}) {
+  let { title, description, dueDate, priority } = info;
+  return { title, description, dueDate, priority }
+}
 //attaching functions and other things to window
 //so i can use them in dev-tools console
 window.ProjectList = ProjectList;
+window.toDoCreator = toDoCreator
