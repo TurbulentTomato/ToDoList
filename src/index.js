@@ -26,7 +26,11 @@ function projectCreator(title) {
 }
 
 function listCreator(title) {
-  return { title, toDos: [] };
+  toDos = []
+  const addToDo = (info) => {
+    toDos.push(toDoCreator(info));
+  }
+  return { title, toDos, addToDo };
 }
 
 function toDoCreator(info = {}) {
