@@ -40,8 +40,10 @@ function toDoCreator(info = {}) {
 
 RenderHandler = (function() {
   //will currently log to console
+  let output = "";
   const renderProjectList = () => {
-    //logs available projects to console
+    output = `Available projects:${ProjectList.getList().map(project => " " + project.title)}`;
+    console.log(output);
   }
   const renderProject = () => {
     //logs project title and available lists
