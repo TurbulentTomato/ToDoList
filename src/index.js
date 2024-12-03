@@ -52,8 +52,16 @@ Available Lists:${project.listCollection.map(list => { return " " + list.title }
 `;
     console.log(output);
   }
-  const renderList = () => {
-    //logs list title and the content of List
+  const renderList = (list) => {
+    output = `List: ${list.title}\n\n`;
+    for (let toDo of list.toDos) {
+      output += `${toDo.title}
+Description: ${toDo.description}
+Due-Date: ${toDo.dueDate}
+Priority: ${toDo.priority}\n
+`;
+    }
+    console.log(output)
   }
   return { renderProjectList, renderProject, renderList }
 })();
