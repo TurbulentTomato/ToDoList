@@ -37,6 +37,20 @@ function toDoCreator(info = {}) {
   let { title, description, dueDate, priority } = info;
   return { title, description, dueDate, priority }
 }
+
+RenderHandler = (function() {
+  //will currently log to console
+  const renderProjectList = () => {
+    //logs available projects to console
+  }
+  const renderProject = () => {
+    //logs project title and available lists
+  }
+  const renderList = () => {
+    //logs list title and the content of List
+  }
+  return { renderProjectList, renderProject, renderList }
+})();
 //attaching functions and other things to window
 //so i can use them in dev-tools console
 window.ProjectList = ProjectList;
