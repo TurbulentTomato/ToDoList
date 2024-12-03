@@ -19,14 +19,14 @@ const ProjectList = (function() {
 
 function projectCreator(title) {
   let listCollection = [listCreator("default")];
-  const addlistCollection = (listTitle) => {
+  const addList = (listTitle) => {
     listCollection.push(listCreator(listTitle));
   }
   return { title, listCollection, addList };
 }
 
 function listCreator(title) {
-  toDos = []
+  let toDos = []
   const addToDo = (info) => {
     toDos.push(toDoCreator(info));
   }
