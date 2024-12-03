@@ -45,8 +45,12 @@ RenderHandler = (function() {
     output = `Available projects:${ProjectList.getList().map(project => " " + project.title)}`;
     console.log(output);
   }
-  const renderProject = () => {
-    //logs project title and available lists
+  const renderProject = (project) => {
+    output = `
+Project: ${project.title}
+Available Lists:${project.listCollection.map(list => { return " " + list.title })}
+`;
+    console.log(output);
   }
   const renderList = () => {
     //logs list title and the content of List
