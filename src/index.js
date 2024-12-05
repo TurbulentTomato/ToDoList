@@ -64,7 +64,15 @@ Status: ${toDo.hasBeenCompleted ? "Completed" : "Pending"}\n
     }
     console.log(output)
   }
-  return { renderProjectList, renderProject, renderList }
+  const renderAllToDos = () => {
+    let projects = ProjectList.getList();
+    for (const project of projects) {
+      project.listCollection.forEach(list => {
+        renderList(list);
+      });
+    }
+  }
+  return { renderProjectList, renderProject, renderList, renderAllToDos }
 })();
 //attaching functions and other things to window
 //so i can use them in dev-tools console
