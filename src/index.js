@@ -54,6 +54,9 @@ Available Lists:${project.listCollection.map(list => { return " " + list.title }
   }
   const renderList = (list) => {
     output = `List: ${list.title}\n\n`;
+    renderToDos(list);
+  }
+  const renderToDos = (list, renderAll = false) => {
     for (let toDo of list.toDos) {
       output += `${toDo.title}
 Description: ${toDo.description}
@@ -62,15 +65,18 @@ Priority: ${toDo.priority}
 Status: ${toDo.hasBeenCompleted ? "Completed" : "Pending"}\n
 `;
     }
-    console.log(output)
+    if (!renderAll) {
+      console.log(output);
+    }
   }
   const renderAllToDos = () => {
     let projects = ProjectList.getList();
     for (const project of projects) {
       project.listCollection.forEach(list => {
-        renderList(list);
+        renderToDos(list, true);
       });
     }
+    console.log(output);
   }
   return { renderProjectList, renderProject, renderList, renderAllToDos }
 })();
