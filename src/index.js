@@ -84,7 +84,15 @@ const UtilityHandler = (function() {
   const deleteObject = (objectIndex, array) => {
     array.splice(objectIndex, 1);
   }
-  return { deleteObject }
+  //will help to edit/update the values of properties
+  const edit = (object, newInfo) => {
+    for (const info in newInfo) {
+      if (info in object) {
+        object[info] = newInfo[info]
+      }
+    }
+  }
+  return { deleteObject, edit }
 })();
 //attaching functions and other things to window
 //so i can use them in dev-tools console
