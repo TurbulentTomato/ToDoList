@@ -3,97 +3,9 @@
 //in each topic/list, user can create to-Dos
 //note: each topic/list will be an object having its title
 //and an array containing its to-Dos
-const ProjectList = (function() {
-  let projects = [];
-  const addProject = (title) => {
-    //creates and pushes a Prpject object that contains
-    //title of project and an array to store its topics/lists
-    projects.push(projectCreator(title));
-  }
-  const getList = () => {
-    console.log(projects);
-    return projects;
-  }
-  return { addProject, getList };
-})();
+import { ProjectList, toDoCreator, UtilityHandler, RenderHandler } from "./barrelModule";
 
-function projectCreator(title) {
-  let listCollection = [listCreator("default")];
-  const addList = (listTitle) => {
-    listCollection.push(listCreator(listTitle));
-  }
-  return { title, listCollection, addList };
-}
 
-function listCreator(title) {
-  let toDos = []
-  const addToDo = (info) => {
-    toDos.push(toDoCreator(info));
-  }
-  return { title, toDos, addToDo };
-}
-
-function toDoCreator(info = {}) {
-  let { title, description, dueDate, priority, hasBeenCompleted } = info;
-  return { title, description, dueDate, priority, hasBeenCompleted }
-}
-
-const RenderHandler = (function() {
-  //will currently log to console
-  let output = "";
-  const renderProjectList = () => {
-    output = `Available projects:${ProjectList.getList().map(project => " " + project.title)}`;
-    console.log(output);
-  }
-  const renderProject = (project) => {
-    output = `
-Project: ${project.title}
-Available Lists:${project.listCollection.map(list => { return " " + list.title })}
-`;
-    console.log(output);
-  }
-  const renderList = (list) => {
-    output = `List: ${list.title}\n\n`;
-    renderToDos(list);
-  }
-  const renderToDos = (list, renderAll = false) => {
-    for (let toDo of list.toDos) {
-      output += `${toDo.title}
-Description: ${toDo.description}
-Due-Date: ${toDo.dueDate}
-Priority: ${toDo.priority}
-Status: ${toDo.hasBeenCompleted ? "Completed" : "Pending"}\n
-`;
-    }
-    if (!renderAll) {
-      console.log(output);
-    }
-  }
-  const renderAllToDos = () => {
-    let projects = ProjectList.getList();
-    for (const project of projects) {
-      project.listCollection.forEach(list => {
-        renderToDos(list, true);
-      });
-    }
-    console.log(output);
-  }
-  return { renderProjectList, renderProject, renderList, renderAllToDos }
-})();
-const UtilityHandler = (function() {
-  const deleteObject = (objectIndex, array) => {
-    array.splice(objectIndex, 1);
-  }
-  //will help to edit/update the values of properties
-  const edit = (object, newInfo) => {
-    for (const info in newInfo) {
-      if (info in object) {
-        object[info] = newInfo[info]
-      }
-    }
-  }
-  return { deleteObject, edit }
-})();
 //attaching functions and other things to window
 //so i can use them in dev-tools console
 window.ProjectList = ProjectList;
