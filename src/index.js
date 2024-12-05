@@ -4,7 +4,9 @@
 //note: each topic/list will be an object having its title
 //and an array containing its to-Dos
 import { ProjectList, toDoCreator, UtilityHandler, RenderHandler } from "./barrelModule";
-
+(() => {
+  ProjectList.addProject("Home"); //for some weird reason,this does not work when written without function and breaks the code
+})()
 
 //attaching functions and other things to window
 //so i can use them in dev-tools console
