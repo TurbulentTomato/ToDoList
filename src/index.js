@@ -34,8 +34,8 @@ function listCreator(title) {
 }
 
 function toDoCreator(info = {}) {
-  let { title, description, dueDate, priority } = info;
-  return { title, description, dueDate, priority }
+  let { title, description, dueDate, priority, hasBeenCompleted } = info;
+  return { title, description, dueDate, priority, hasBeenCompleted }
 }
 
 RenderHandler = (function() {
@@ -58,7 +58,8 @@ Available Lists:${project.listCollection.map(list => { return " " + list.title }
       output += `${toDo.title}
 Description: ${toDo.description}
 Due-Date: ${toDo.dueDate}
-Priority: ${toDo.priority}\n
+Priority: ${toDo.priority}
+Status: ${hasBeenCompleted ? "Completed" : "Pending"}\n
 `;
     }
     console.log(output)
