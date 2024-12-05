@@ -80,7 +80,14 @@ Status: ${toDo.hasBeenCompleted ? "Completed" : "Pending"}\n
   }
   return { renderProjectList, renderProject, renderList, renderAllToDos }
 })();
+const UtilityHandler = (function() {
+  const deleteObject = (objectIndex, array) => {
+    array.splice(objectIndex, 1);
+  }
+  return { deleteObject }
+})();
 //attaching functions and other things to window
 //so i can use them in dev-tools console
 window.ProjectList = ProjectList;
 window.toDoCreator = toDoCreator
+window.UtilityHandler = UtilityHandler
