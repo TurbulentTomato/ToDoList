@@ -38,7 +38,7 @@ function toDoCreator(info = {}) {
   return { title, description, dueDate, priority, hasBeenCompleted }
 }
 
-RenderHandler = (function() {
+const RenderHandler = (function() {
   //will currently log to console
   let output = "";
   const renderProjectList = () => {
@@ -99,3 +99,4 @@ const UtilityHandler = (function() {
 window.ProjectList = ProjectList;
 window.toDoCreator = toDoCreator
 window.UtilityHandler = UtilityHandler
+window.RenderHandler = RenderHandler
