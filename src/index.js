@@ -59,7 +59,7 @@ Available Lists:${project.listCollection.map(list => { return " " + list.title }
 Description: ${toDo.description}
 Due-Date: ${toDo.dueDate}
 Priority: ${toDo.priority}
-Status: ${hasBeenCompleted ? "Completed" : "Pending"}\n
+Status: ${toDo.hasBeenCompleted ? "Completed" : "Pending"}\n
 `;
     }
     console.log(output)
