@@ -5,6 +5,12 @@
 //and an array containing its to-Dos
 import { ProjectList, toDoCreator, UtilityHandler, RenderHandler } from "./barrelModule";
 (() => {
+  let list = ProjectList.getList();
+  if (localStorage.getItem("projects")) {
+    list.push(...JSON.parse(localStorage.getItem("projects")))
+    list.forEach(project => { UtilityHandler.recoverMethods(project) })
+    return
+  }
   ProjectList.addProject("Home"); //for some weird reason,this does not work when written without function and breaks the code
 })()
 
