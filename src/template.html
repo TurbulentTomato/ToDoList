@@ -32,6 +32,89 @@
       <main>
         <button type="button" id="add-task-btn">+</button>
       </main>
+      <dialog class="add-task-modal">
+        <div class="form-container">
+          <h3>Add New Task</h3>
+          <form>
+            <label for="task-title">
+              Title
+              <input type="text" id="task-title">
+            </label>
+            <label for="description">
+              Description
+              <textarea name="description" id="description"></textarea>
+            </label>
+            <label for="due-date">
+              Due-Date
+              <input type="date" id="due-date">
+            </label>
+            <label for="priority">
+              Priority
+              <select name="priority" id="priority">
+                <option value="high">High</option>
+                <option value="medium">Medium</option>
+                <option value="low">Low</option>
+              </select>
+            </label>
+            <label for="task-project-select">
+              Project
+              <select name="task-project-select" id="task-project-select">
+                <option value="placeholder">Placeholder</option>
+              </select>
+            </label>
+            <label for="task-list-select">
+              List
+              <select name="task-list-select" id="task-list-select">
+                <option value="placeholder">Placeholder</option>
+              </select>
+            </label>
+            <label for="has-been-completed" class="checkbox">
+              <input type="checkbox" id="has-been-completed">
+              Completed
+            </label>
+          </form>
+          <div class="modal-btn-container">
+            <button type="button" class="cancel-btn">Cancel</button>
+            <button class="submit-btn">Submit</button>
+          </div>
+        </div>
+      </dialog>
+      <dialog class="add-list-modal">
+        <div class="form-container">
+          <h3>Add New List</h3>
+          <form>
+            <label for="list-title">
+              Title
+              <input type="text" id="list-title">
+            </label>
+            <label for="list-project-select">
+              Project
+              <select name="list-project-select" id="list-project-select">
+                <option value="placeholder">Placeholder</option>
+              </select>
+            </label>
+          </form>
+          <div class="modal-btn-container">
+            <button type="button" class="cancel-btn">Cancel</button>
+            <button class="submit-btn">Submit</button>
+          </div>
+        </div>
+      </dialog>
+      <dialog class="add-project-modal">
+        <div class="form-container">
+          <h3>Add New Project</h3>
+          <form>
+            <label for="project-title">
+              Title
+              <input type="text" id="project-title">
+            </label>
+          </form>
+          <div class="modal-btn-container">
+            <button type="button" class="cancel-btn">Cancel</button>
+            <button class="submit-btn">Submit</button>
+          </div>
+        </div>
+      </dialog>
     </div>
   </div>
 </body>
