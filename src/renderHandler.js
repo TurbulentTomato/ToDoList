@@ -1,9 +1,11 @@
 export const RenderHandler = (function() {
   //will currently log to console
   let output = "";
-  const renderProjectList = () => {
-    output = `Available projects:${ProjectList.getList().map(project => " " + project.title)}`;
-    console.log(output);
+  const renderProjectList = (container, addBtn, list) => {
+    //output = `Available projects:${ProjectList.getList().map(project => " " + project.title)}`;
+    // console.log(output);
+    container.innerHTML = list;
+    container.prepend(addBtn);
   }
   const renderProject = (project) => {
     output = `
