@@ -24,5 +24,14 @@ export const UtilityHandler = (function() {
   const save = () => {
     localStorage.setItem("projects", JSON.stringify(ProjectList.getList()))
   }
-  return { deleteObject, edit, save, recoverMethods }
+  const createProjectListDom = () => {
+    let list = ProjectList.getList().map(project => project.title);
+    return list.reduce((innerHtml, projectTitle, index) => {
+      return innerHtml += `<li data-index="${index}">
+<button type="button">${projectTitle}</button>
+<button type="button" class="del-project-btn">×</button>
+</li>`
+    }, ``)
+  }
+  return { deleteObject, edit, save, recoverMethods, createProjectListDom }
 })();
