@@ -6,8 +6,8 @@
 import { ProjectList, toDoCreator, UtilityHandler, RenderHandler } from "./barrelModule";
 import "./reset.css";
 import "./style.css";
+let list = ProjectList.getList();
 (() => {
-  let list = ProjectList.getList();
   if (localStorage.getItem("projects")) {
     list.push(...JSON.parse(localStorage.getItem("projects")))
     list.forEach(project => { UtilityHandler.recoverMethods(project) })
@@ -27,6 +27,8 @@ const DomHandler = (function() {
   const addProjectModal = document.querySelector(".add-project-modal");
   const addListModal = document.querySelector(".add-list-modal");
   const addTaskModal = document.querySelector(".add-task-modal");
+  const submitProjectButton = addProjectModal.querySelector(".submit-btn");
+  const projectTitleInput = addProjectModal.querySelector("#project-title")
   const bindEvents = () => {
     addTaskBtn.addEventListener("click", () => { addTaskModal.showModal() })
     addProjectBtn.addEventListener("click", (event) => {
@@ -41,6 +43,19 @@ const DomHandler = (function() {
         addListModal.close();
         addTaskModal.close();
       })
+    })
+    submitProjectButton.addEventListener("click", () => {
+      ProjectList.addProject(projectTitleInput.value);
+      UtilityHandler.save();
+      RenderHandler.renderProjectList(projectContainer, addProjectBtn, UtilityHandler.createProjectListDom());
+      addProjectModal.close();
+    })
+    projectContainer.addEventListener("click", (event) => {
+      if (Array.from(event.target.classList).includes("del-project-btn")) {
+        UtilityHandler.deleteObject(Number(event.target.closest("[data-index]")?.dataset.index), list);
+        UtilityHandler.save();
+        RenderHandler.renderProjectList(projectContainer, addProjectBtn, UtilityHandler.createProjectListDom());
+      }
     })
   }
   return { bindEvents }
