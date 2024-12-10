@@ -7,12 +7,14 @@ export const RenderHandler = (function() {
     container.innerHTML = list;
     container.prepend(addBtn);
   }
-  const renderProject = (project) => {
-    output = `
-Project: ${project.title}
-Available Lists:${project.listCollection.map(list => { return " " + list.title })}
-`;
-    console.log(output);
+  const renderProject = (container, addBtn, list) => {
+    /*  output = `
+  Project: ${project.title}
+  Available Lists:${project.listCollection.map(list => { return " " + list.title })}
+  `;
+      console.log(output);*/
+    container.innerHTML = list;
+    container.prepend(addBtn);
   }
   const renderList = (list) => {
     output = `List: ${list.title}\n\n`;
