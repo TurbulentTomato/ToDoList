@@ -28,10 +28,16 @@ const DomHandler = (function() {
   const addListModal = document.querySelector(".add-list-modal");
   const addTaskModal = document.querySelector(".add-task-modal");
   const submitProjectButton = addProjectModal.querySelector(".submit-btn");
+  const listProjectSelect = document.querySelector("#list-project-select");
+  const taskProjectSelect = document.querySelector("#task-project-select");
   const projectTitleInput = addProjectModal.querySelector("#project-title")
   const bindEvents = () => {
-    addTaskBtn.addEventListener("click", () => { addTaskModal.showModal() })
+    addTaskBtn.addEventListener("click", () => {
+      taskProjectSelect.innerHTML = getProjectOption();
+      addTaskModal.showModal()
+    })
     addProjectBtn.addEventListener("click", (event) => {
+      listProjectSelect.innerHTML = getProjectOption();
       addProjectModal.showModal();
     })
     addListBtn.addEventListener("click", (event) => {
@@ -59,6 +65,11 @@ const DomHandler = (function() {
         RenderHandler.renderProject(listContainer, addListBtn, UtilityHandler.createListCollectionDom(list[Number(event.target.closest("[data-index]")?.dataset.index)]))
       }
     })
+  }
+  const getProjectOption = () => {
+    return list.map(project => project.title).reduce((options, optionTitle, index) => {
+      return options += `<option value="${index}">${optionTitle}</option>`;
+    }, ``)
   }
   return { bindEvents }
 })();
