@@ -55,6 +55,8 @@ const DomHandler = (function() {
         UtilityHandler.deleteObject(Number(event.target.closest("[data-index]")?.dataset.index), list);
         UtilityHandler.save();
         RenderHandler.renderProjectList(projectContainer, addProjectBtn, UtilityHandler.createProjectListDom());
+      } else if (event.target.tagName.toLowerCase() === "button" && event.target.id !== "add-project-btn") {
+        RenderHandler.renderProject(listContainer, addListBtn, UtilityHandler.createListCollectionDom(list[Number(event.target.closest("[data-index]")?.dataset.index)]))
       }
     })
   }
