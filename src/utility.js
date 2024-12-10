@@ -33,5 +33,15 @@ export const UtilityHandler = (function() {
 </li>`
     }, ``)
   }
-  return { deleteObject, edit, save, recoverMethods, createProjectListDom }
+  //creates a collection of lists present in an object which can be rendered to dom
+  const createListCollectionDom = (project) => {
+    let list = project.listCollection.map(list => list.title);
+    return list.reduce((innerHtml, listTitle, index) => {
+      return innerHtml += `<li data-list-index="${index}">
+<button type="button">${listTitle}</button>
+<button type="button" class="del-list-btn">×</button>
+</li>`
+    }, ``)
+  }
+  return { deleteObject, edit, save, recoverMethods, createProjectListDom, createListCollectionDom }
 })();
