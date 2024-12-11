@@ -30,6 +30,9 @@ const DomHandler = (function() {
   const submitProjectButton = addProjectModal.querySelector(".submit-btn");
   const listProjectSelect = document.querySelector("#list-project-select");
   const taskProjectSelect = document.querySelector("#task-project-select");
+  const listTitleInput = document.querySelector("#list-title");
+  const submitListBtn = addListModal.querySelector(".submit-btn");
+  let currentProject = null;
   const projectTitleInput = addProjectModal.querySelector("#project-title")
   const bindEvents = () => {
     addTaskBtn.addEventListener("click", () => {
@@ -62,7 +65,24 @@ const DomHandler = (function() {
         UtilityHandler.save();
         RenderHandler.renderProjectList(projectContainer, addProjectBtn, UtilityHandler.createProjectListDom());
       } else if (event.target.tagName.toLowerCase() === "button" && event.target.id !== "add-project-btn") {
-        RenderHandler.renderProject(listContainer, addListBtn, UtilityHandler.createListCollectionDom(list[Number(event.target.closest("[data-index]")?.dataset.index)]))
+        currentProject = list[Number(event.target.closest("[data-index]")?.dataset.index)];
+        RenderHandler.renderProject(listContainer, addListBtn, UtilityHandler.createListCollectionDom(currentProject))
+      }
+    })
+    submitListBtn.addEventListener("click", () => {
+      currentProject = list[Number(listProjectSelect.value)];
+      currentProject.addList(listTitleInput.value)
+      UtilityHandler.save();
+      RenderHandler.renderProject(listContainer, addListBtn, UtilityHandler.createListCollectionDom(currentProject));
+      addListModal.close();
+    })
+    listContainer.addEventListener("click", (event) => {
+      if (Array.from(event.target.classList).includes("del-list-btn")) {
+        UtilityHandler.deleteObject(Number(event.target.closest("[data-list-index]")?.dataset.listIndex), currentProject.listCollection);
+        UtilityHandler.save();
+        RenderHandler.renderProject(listContainer, addListBtn, UtilityHandler.createListCollectionDom(currentProject));
+      } else if (event.target.tagName.toLowerCase() === "button" && event.target.id !== "add-list-btn") {
+        console.log("rendering todos")
       }
     })
   }
