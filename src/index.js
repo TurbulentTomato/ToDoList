@@ -33,6 +33,12 @@ const DomHandler = (function() {
   const taskListSelect = document.querySelector("#task-list-select");
   const listTitleInput = document.querySelector("#list-title");
   const submitListBtn = addListModal.querySelector(".submit-btn");
+  const submitTaskBtn = addTaskModal.querySelector(".submit-btn");
+  const taskTitleInput = document.querySelector("#task-title");
+  const taskDescriptionInput = document.querySelector("#description");
+  const dueDateInput = document.querySelector("#due-date");
+  const priorityInput = document.querySelector("#priority");
+  const taskStatusInput = document.querySelector("#has-been-completed");
   let currentProject = null;
   const projectTitleInput = addProjectModal.querySelector("#project-title")
   const bindEvents = () => {
@@ -86,6 +92,18 @@ const DomHandler = (function() {
       } else if (event.target.tagName.toLowerCase() === "button" && event.target.id !== "add-list-btn") {
         console.log("rendering todos")
       }
+    })
+    submitTaskBtn.addEventListener("click", () => {
+      currentProject = list[Number(taskProjectSelect.value)];
+      let currentList = currentProject.listCollection[Number(taskListSelect.value)]
+      currentList.addToDo({
+        title: taskTitleInput.value, description: taskDescriptionInput.value,
+        dueDate: dueDateInput?.value, priority: priorityInput.value,
+        hasBeenCompleted: taskStatusInput.checked
+      })
+      UtilityHandler.save();
+      console.log(list)
+      addTaskModal.close();
     })
   }
   const getProjectOption = () => {
