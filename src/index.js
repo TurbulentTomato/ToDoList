@@ -42,10 +42,10 @@ const DomHandler = (function() {
       addTaskModal.showModal()
     })
     addProjectBtn.addEventListener("click", (event) => {
-      listProjectSelect.innerHTML = getProjectOption();
       addProjectModal.showModal();
     })
     addListBtn.addEventListener("click", (event) => {
+      listProjectSelect.innerHTML = getProjectOption();
       addListModal.showModal();
     })
     cancelBtn.forEach(button => {
