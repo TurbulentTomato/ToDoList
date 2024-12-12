@@ -90,6 +90,10 @@ const DomHandler = (function() {
   }
   const getProjectOption = () => {
     return list.map(project => project.title).reduce((options, optionTitle, index) => {
+      //makes the currentProject as default selection in *ProjectSelect elements
+      if (list.indexOf(currentProject) == index) {
+        return options += `<option value="${index}" selected>${optionTitle}</option>`;
+      }
       return options += `<option value="${index}">${optionTitle}</option>`;
     }, ``)
   }
