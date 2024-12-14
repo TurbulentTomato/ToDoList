@@ -73,12 +73,13 @@ const DomHandler = (function() {
       addProjectModal.close();
     })
     projectContainer.addEventListener("click", (event) => {
+      let li = event.target.closest("[data-index]")
       if (Array.from(event.target.classList).includes("del-project-btn")) {
-        UtilityHandler.deleteObject(Number(event.target.closest("[data-index]")?.dataset.index), list);
+        UtilityHandler.deleteObject(Number(li?.dataset.index), list);
         UtilityHandler.save();
-        RenderHandler.renderProjectList(projectContainer, addProjectBtn, UtilityHandler.createProjectListDom());
+        li.remove();
       } else if (event.target.tagName.toLowerCase() === "button" && event.target.id !== "add-project-btn") {
-        currentProject = list[Number(event.target.closest("[data-index]")?.dataset.index)];
+        currentProject = list[Number(li?.dataset.index)];
         RenderHandler.renderProject(listContainer, addListBtn, UtilityHandler.createListCollectionDom(currentProject))
       }
     })
@@ -88,7 +89,7 @@ const DomHandler = (function() {
         let innerHtml = ``;
         list.forEach(project => {
           for (const element of project.listCollection) {
-            innerHtml += (UtilityHandler.createToDoListDom(element));
+            innerHtml += (UtilityHandler.createToDoListDom(project, element));
           }
           RenderHandler.renderList(toDoContainer, addTaskBtn, innerHtml)
         });
@@ -102,14 +103,15 @@ const DomHandler = (function() {
       addListModal.close();
     })
     listContainer.addEventListener("click", (event) => {
+      let li = event.target.closest("[data-list-index]");
       if (Array.from(event.target.classList).includes("del-list-btn")) {
-        UtilityHandler.deleteObject(Number(event.target.closest("[data-list-index]")?.dataset.listIndex), currentProject.listCollection);
+        UtilityHandler.deleteObject(Number(li?.dataset.listIndex), currentProject.listCollection);
         UtilityHandler.save();
-        RenderHandler.renderProject(listContainer, addListBtn, UtilityHandler.createListCollectionDom(currentProject));
+        li.remove();
       } else if (event.target.tagName.toLowerCase() === "button" && event.target.id !== "add-list-btn") {
         console.log("rendering todos")
-        currentList = currentProject.listCollection[Number(event.target.closest("[data-list-index]")?.dataset.listIndex)];
-        RenderHandler.renderList(toDoContainer, addTaskBtn, UtilityHandler.createToDoListDom(currentList))
+        currentList = currentProject.listCollection[Number(li?.dataset.listIndex)];
+        RenderHandler.renderList(toDoContainer, addTaskBtn, UtilityHandler.createToDoListDom(currentProject, currentList))
       }
     })
     submitTaskBtn.addEventListener("click", () => {
@@ -122,17 +124,23 @@ const DomHandler = (function() {
       })
       UtilityHandler.save();
       console.log(list)
-      RenderHandler.renderList(toDoContainer, addTaskBtn, UtilityHandler.createToDoListDom(currentList))
+      RenderHandler.renderList(toDoContainer, addTaskBtn, UtilityHandler.createToDoListDom(currentProject, currentList))
       addTaskModal.close();
     })
     toDoContainer.addEventListener("click", (event) => {
-      let toDo = currentList.toDos[Number(event.target.closest("[data-task-index]").dataset.taskIndex)];
+      if (event.target === addTaskBtn) return
+      let article = event.target.closest("[data-task-index]");
+      currentProject = list[Number(article.dataset.projectIndex)];
+      currentList = currentProject.listCollection[Number(article?.dataset.listIndex)];
+      let toDo = currentList.toDos[Number(article?.dataset.taskIndex)];
       if (Array.from(event.target.classList).includes("del-task-btn")) {
+        article.remove()
         UtilityHandler.deleteObject(currentList.toDos.indexOf(toDo), currentList.toDos);
       } else if (event.target.tagName.toLowerCase() === "input") {
         toDo.hasBeenCompleted = !toDo.hasBeenCompleted;
+        event.target.parentNode.innerHTML = `<input type="checkbox" ${toDo.hasBeenCompleted ? "checked" : ""}> ${toDo.hasBeenCompleted ? "Completed" : "Pending"}`
       }
-      RenderHandler.renderList(toDoContainer, addTaskBtn, UtilityHandler.createToDoListDom(currentList));
+      UtilityHandler.save();
     })
   }
   const getProjectOption = () => {
