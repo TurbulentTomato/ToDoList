@@ -1,0 +1,37 @@
+#sidebar {
+  position: sticky;
+  padding: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+
+  div {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.7rem;
+    justify-content: center;
+  }
+}
+
+.project-list,
+.quick-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 1.3rem;
+
+  li {
+    display: grid;
+    grid-template: 1fr/ 1fr auto;
+  }
+
+  button {
+    border: none;
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    font-size: 1.3rem;
+
+    &:not(#add-project-btn) {
+      text-align: start;
+    }
+  }
+}
