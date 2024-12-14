@@ -52,6 +52,7 @@ export const UtilityHandler = (function() {
 <p>Priority: ${toDo.priority}</p>
 <p>Status: ${toDo.hasBeenCompleted ? "Completed" : "Pending"}</p>
 <button type="button">×</button>
+</article>
 `
     })
     return toDoList.join("")
