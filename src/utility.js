@@ -50,7 +50,7 @@ export const UtilityHandler = (function() {
 <p>${toDo.description}</p>
 <p>Due-Date: ${toDo.dueDate}</p>
 <p>Priority: ${toDo.priority}</p>
-<p>Status: ${toDo.hasBeenCompleted ? "Completed" : "Pending"}</p>
+<label><input type="checkbox" ${toDo.hasBeenCompleted ? "checked" : ""}> ${toDo.hasBeenCompleted ? "Completed" : "Pending"}</label>
 <button type="button">×</button>
 </article>
 `
