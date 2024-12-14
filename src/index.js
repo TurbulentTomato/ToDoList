@@ -20,6 +20,7 @@ let list = ProjectList.getList();
 
 const DomHandler = (function() {
   const sidebar = document.querySelector("#sidebar");
+  const quickActionContainer = document.querySelector(".quick-actions");
   const projectContainer = document.querySelector(".project-list");
   const listContainer = document.querySelector("#list-container");
   const toDoContainer = document.querySelector("main");
@@ -79,6 +80,18 @@ const DomHandler = (function() {
       } else if (event.target.tagName.toLowerCase() === "button" && event.target.id !== "add-project-btn") {
         currentProject = list[Number(event.target.closest("[data-index]")?.dataset.index)];
         RenderHandler.renderProject(listContainer, addListBtn, UtilityHandler.createListCollectionDom(currentProject))
+      }
+    })
+    quickActionContainer.addEventListener("click", (event) => {
+      if (Array.from(event.target.classList).includes("all")) {
+        console.log("clicked haha")
+        let innerHtml = ``;
+        list.forEach(project => {
+          for (const element of project.listCollection) {
+            innerHtml += (UtilityHandler.createToDoListDom(element));
+          }
+          RenderHandler.renderList(toDoContainer, addTaskBtn, innerHtml)
+        });
       }
     })
     submitListBtn.addEventListener("click", () => {
