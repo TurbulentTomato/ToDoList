@@ -112,6 +112,13 @@ const DomHandler = (function() {
       RenderHandler.renderList(toDoContainer, addTaskBtn, UtilityHandler.createToDoListDom(currentList))
       addTaskModal.close();
     })
+    toDoContainer.addEventListener("click", (event) => {
+      if (event.target.tagName.toLowerCase() === "input") {
+        let toDo = currentList.toDos[Number(event.target.closest("[data-task-index]").dataset.taskIndex)];
+        toDo.hasBeenCompleted = !toDo.hasBeenCompleted;
+        RenderHandler.renderList(toDoContainer, addTaskBtn, UtilityHandler.createToDoListDom(currentList));
+      }
+    })
   }
   const getProjectOption = () => {
     return list.map(project => project.title).reduce((options, optionTitle, index) => {
