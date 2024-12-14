@@ -43,5 +43,18 @@ export const UtilityHandler = (function() {
 </li>`
     }, ``)
   }
-  return { deleteObject, edit, save, recoverMethods, createProjectListDom, createListCollectionDom }
+  const createToDoListDom = (list) => {
+    let toDoList = list.toDos.map((toDo, index) => {
+      return `<article data-task-index="${index}">
+<h4>${toDo.title}</h4>
+<p>${toDo.description}</p>
+<p>Due-Date: ${toDo.dueDate}</p>
+<p>Priority: ${toDo.priority}</p>
+<p>Status: ${toDo.hasBeenCompleted ? "Completed" : "Pending"}</p>
+<button type="button">×</button>
+`
+    })
+    return toDoList.join("")
+  }
+  return { deleteObject, edit, save, recoverMethods, createProjectListDom, createListCollectionDom, createToDoListDom }
 })();
