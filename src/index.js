@@ -6,6 +6,8 @@
 import { ProjectList, toDoCreator, UtilityHandler, RenderHandler } from "./barrelModule";
 import "./reset.css";
 import "./style.css";
+import "./modal.css";
+import "./sidebar.css";
 let list = ProjectList.getList();
 (() => {
   if (localStorage.getItem("projects")) {
