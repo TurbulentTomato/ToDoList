@@ -1,5 +1,7 @@
 :root {
-  --bg-main: #111;
+  /*--bg-main: #111;*/
+  --bg-main: white;
+  --text-main: black;
   --bg-secondary: #3C3D37;
   --cream-color: #ECDFCC;
 }
@@ -26,75 +28,13 @@ body {
   }
 }
 
-#sidebar {
-  position: sticky;
+li {
+  list-style: none;
+  padding: 0;
 }
 
-dialog {
-  margin: auto;
-  border-radius: 1rem;
-
-  div.form-container {
-    display: flex;
-    flex-direction: column;
-    gap: 1.3rem;
-  }
-
-  &::backdrop {
-    background-color: rgba(0, 0, 0, 0.6);
-  }
-
-  form {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-
-    label:not(.checkbox) {
-      display: flex;
-      flex-direction: column;
-      gap: 0.2rem;
-    }
-  }
-
-  .modal-btn-container {
-    display: flex;
-    gap: 1rem;
-
-    button {
-      flex: 1;
-    }
-  }
-}
-
-dialog.add-task-modal {
-
-  form {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-areas:
-      "title title"
-      "description description"
-      "due-date priority"
-      "project list"
-      "status ..."
-    ;
-    gap: 1rem 1rem;
-
-    label[for="task-title"] {
-      grid-area: title;
-    }
-
-    label[for="description"] {
-      grid-area: description;
-    }
-
-    label.checkbox {
-      display: grid;
-      grid-template-columns: auto 1fr;
-      gap: 0.7rem;
-      place-content: center;
-    }
-  }
+ul {
+  padding: 0;
 }
 
 main {
