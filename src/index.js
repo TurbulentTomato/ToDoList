@@ -20,6 +20,7 @@ const DomHandler = (function() {
   const sidebar = document.querySelector("#sidebar");
   const projectContainer = document.querySelector(".project-list");
   const listContainer = document.querySelector("#list-container");
+  const toDoContainer = document.querySelector("main");
   const addTaskBtn = document.querySelector("#add-task-btn");
   const addListBtn = document.querySelector("#add-list-btn");
   const addProjectBtn = document.querySelector("#add-project-btn");
@@ -40,6 +41,7 @@ const DomHandler = (function() {
   const priorityInput = document.querySelector("#priority");
   const taskStatusInput = document.querySelector("#has-been-completed");
   let currentProject = null;
+  let currentList = null;
   const projectTitleInput = addProjectModal.querySelector("#project-title")
   const bindEvents = () => {
     addTaskBtn.addEventListener("click", () => {
@@ -91,11 +93,13 @@ const DomHandler = (function() {
         RenderHandler.renderProject(listContainer, addListBtn, UtilityHandler.createListCollectionDom(currentProject));
       } else if (event.target.tagName.toLowerCase() === "button" && event.target.id !== "add-list-btn") {
         console.log("rendering todos")
+        currentList = currentProject.listCollection[Number(event.target.closest("[data-list-index]")?.dataset.listIndex)];
+        RenderHandler.renderList(toDoContainer, addTaskBtn, UtilityHandler.createToDoListDom(currentList))
       }
     })
     submitTaskBtn.addEventListener("click", () => {
       currentProject = list[Number(taskProjectSelect.value)];
-      let currentList = currentProject.listCollection[Number(taskListSelect.value)]
+      currentList = currentProject.listCollection[Number(taskListSelect.value)]
       currentList.addToDo({
         title: taskTitleInput.value, description: taskDescriptionInput.value,
         dueDate: dueDateInput?.value, priority: priorityInput.value,
@@ -103,6 +107,7 @@ const DomHandler = (function() {
       })
       UtilityHandler.save();
       console.log(list)
+      RenderHandler.renderList(toDoContainer, addTaskBtn, UtilityHandler.createToDoListDom(currentList))
       addTaskModal.close();
     })
   }
