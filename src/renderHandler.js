@@ -16,31 +16,33 @@ export const RenderHandler = (function() {
     container.innerHTML = list;
     container.prepend(addBtn);
   }
-  const renderList = (list) => {
-    output = `List: ${list.title}\n\n`;
-    renderToDos(list);
+  const renderList = (container, addBtn, list) => {
+    /* output = `List: ${list.title}\n\n`;
+     renderToDos(list);*/
+    container.innerHTML = list;
+    container.prepend(addBtn)
   }
-  const renderToDos = (list, renderAll = false) => {
-    for (let toDo of list.toDos) {
-      output += `${toDo.title}
-Description: ${toDo.description}
-Due-Date: ${toDo.dueDate}
-Priority: ${toDo.priority}
-Status: ${toDo.hasBeenCompleted ? "Completed" : "Pending"}\n
-`;
-    }
-    if (!renderAll) {
-      console.log(output);
-    }
+  const renderToDos = (container, list) => {
+    /*  for (let toDo of list.toDos) {
+        output += `${toDo.title}
+  Description: ${toDo.description}
+  Due-Date: ${toDo.dueDate}
+  Priority: ${toDo.priority}
+  Status: ${toDo.hasBeenCompleted ? "Completed" : "Pending"}\n
+  `;
+      }
+      if (!renderAll) {
+        console.log(output);
+      }*/
   }
   const renderAllToDos = () => {
-    let projects = ProjectList.getList();
+    /*let projects = ProjectList.getList();
     for (const project of projects) {
       project.listCollection.forEach(list => {
         renderToDos(list, true);
       });
     }
-    console.log(output);
+    console.log(output);*/
   }
-  return { renderProjectList, renderProject, renderList, renderAllToDos }
+  return { renderProjectList, renderProject, renderList, renderToDos }
 })();
