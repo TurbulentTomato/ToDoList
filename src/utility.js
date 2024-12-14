@@ -43,9 +43,11 @@ export const UtilityHandler = (function() {
 </li>`
     }, ``)
   }
-  const createToDoListDom = (list) => {
+  const createToDoListDom = (project, list) => {
+    let projectIndex = ProjectList.getList().indexOf(project)
+    let listIndex = project.listCollection.indexOf(list);
     let toDoList = list.toDos.map((toDo, index) => {
-      return `<article data-task-index="${index}">
+      return `<article data-task-index="${index}" data-list-index="${listIndex}" data-project-index="${projectIndex}">
 <h4>${toDo.title}</h4>
 <p>${toDo.description}</p>
 <p>Due-Date: ${toDo.dueDate}</p>
