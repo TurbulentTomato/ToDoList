@@ -113,11 +113,13 @@ const DomHandler = (function() {
       addTaskModal.close();
     })
     toDoContainer.addEventListener("click", (event) => {
-      if (event.target.tagName.toLowerCase() === "input") {
-        let toDo = currentList.toDos[Number(event.target.closest("[data-task-index]").dataset.taskIndex)];
+      let toDo = currentList.toDos[Number(event.target.closest("[data-task-index]").dataset.taskIndex)];
+      if (Array.from(event.target.classList).includes("del-task-btn")) {
+        UtilityHandler.deleteObject(currentList.toDos.indexOf(toDo), currentList.toDos);
+      } else if (event.target.tagName.toLowerCase() === "input") {
         toDo.hasBeenCompleted = !toDo.hasBeenCompleted;
-        RenderHandler.renderList(toDoContainer, addTaskBtn, UtilityHandler.createToDoListDom(currentList));
       }
+      RenderHandler.renderList(toDoContainer, addTaskBtn, UtilityHandler.createToDoListDom(currentList));
     })
   }
   const getProjectOption = () => {
