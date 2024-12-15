@@ -35,7 +35,7 @@ export const RenderHandler = (function() {
         console.log(output);
       }*/
   }
-  const renderAllToDos = () => {
+  const renderAllToDos = (container, addBtn, list) => {
     /*let projects = ProjectList.getList();
     for (const project of projects) {
       project.listCollection.forEach(list => {
@@ -43,6 +43,13 @@ export const RenderHandler = (function() {
       });
     }
     console.log(output);*/
+    let innerHtml = ``;
+    list.forEach(project => {
+      for (const element of project.listCollection) {
+        innerHtml += (UtilityHandler.createToDoListDom(project, element));
+      }
+      renderList(container, addBtn, innerHtml)
+    });
   }
-  return { renderProjectList, renderProject, renderList, renderToDos }
+  return { renderProjectList, renderProject, renderList, renderToDos, renderAllToDos }
 })();
