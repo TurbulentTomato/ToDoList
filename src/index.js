@@ -165,6 +165,10 @@ const DomHandler = (function() {
   }
   const getListOption = () => {
     return currentProject.listCollection.map(list => list.title).reduce((options, optionTitle, index) => {
+      //makes the currentList as default selection in *taskListSelect element
+      if (currentProject.listCollection.indexOf(currentList) === index) {
+        return options += `<option value="${index}" selected>${optionTitle}</option>`;
+      }
       return options += `<option value="${index}">${optionTitle}</option>`;
     }, ``)
   }
