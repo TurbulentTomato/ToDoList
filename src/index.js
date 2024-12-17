@@ -45,7 +45,7 @@ const DomHandler = (function() {
   const taskStatusInput = document.querySelector("#has-been-completed");
   let currentProject = null;
   let currentList = null;
-  let isQuickAction = false;
+  let quickAction = null;
   const projectTitleInput = addProjectModal.querySelector("#project-title")
   const bindEvents = () => {
     addTaskBtn.addEventListener("click", () => {
@@ -80,15 +80,22 @@ const DomHandler = (function() {
         UtilityHandler.save();
         RenderHandler.renderProjectList(projectContainer, addProjectBtn, UtilityHandler.createProjectListDom());
       } else if (event.target.tagName.toLowerCase() === "button" && event.target.id !== "add-project-btn") {
-        isQuickAction = false;
+        quickAction = null;
         currentProject = list[Number(li?.dataset.index)];
         RenderHandler.renderProject(listContainer, addListBtn, UtilityHandler.createListCollectionDom(currentProject))
       }
     })
     quickActionContainer.addEventListener("click", (event) => {
-      if (Array.from(event.target.classList).includes("all")) {
+      let classList = Array.from(event.target.classList)
+      if (classList.includes("all")) {
         RenderHandler.renderAllToDos(toDoContainer, addTaskBtn, list);
-        isQuickAction = true;
+        quickAction = "all";
+      } else if (classList.includes("pending")) {
+        RenderHandler.renderList(toDoContainer, addTaskBtn, UtilityHandler.createFilteredToDoList("hasBeenCompleted", false));
+        quickAction = "pending";
+      } else if (classList.includes("completed")) {
+        quickAction = "completed";
+        RenderHandler.renderList(toDoContainer, addTaskBtn, UtilityHandler.createFilteredToDoList("hasBeenCompleted", true));
       }
     })
     submitListBtn.addEventListener("click", () => {
@@ -131,8 +138,12 @@ const DomHandler = (function() {
       let toDo = currentList.toDos[Number(article?.dataset.taskIndex)];
       if (Array.from(event.target.classList).includes("del-task-btn")) {
         UtilityHandler.deleteObject(currentList.toDos.indexOf(toDo), currentList.toDos);
-        if (isQuickAction) {
-          RenderHandler.renderAllToDos(toDoContainer, addTaskBtn, list);
+        if (quickAction != null) {
+          if (quickAction === "all") {
+            RenderHandler.renderAllToDos(toDoContainer, addTaskBtn, list);
+          } else {
+            RenderHandler.renderList(toDoContainer, addTaskBtn, UtilityHandler.createFilteredToDoList("hasBeenCompleted", quickAction === "completed"));
+          }
         } else {
           RenderHandler.renderList(toDoContainer, addTaskBtn, UtilityHandler.createToDoListDom(currentProject, currentList));
         }
