@@ -47,6 +47,7 @@ export const UtilityHandler = (function() {
     let projectIndex = ProjectList.getList().indexOf(project)
     let listIndex = project.listCollection.indexOf(list);
     let toDoList = list.toDos.map((toDo, index) => {
+      if (toDo === null) return ``;
       return `<article data-task-index="${index}" data-list-index="${listIndex}" data-project-index="${projectIndex}">
 <h4>${toDo.title}</h4>
 <p>${toDo.description}</p>
@@ -59,5 +60,20 @@ export const UtilityHandler = (function() {
     })
     return toDoList.join("")
   }
-  return { deleteObject, edit, save, recoverMethods, createProjectListDom, createListCollectionDom, createToDoListDom }
+  const createFilteredToDoList = (property, value) => {
+    let projectList = ProjectList.getList();
+    let filteredDomList = ``;
+    for (const project of projectList) {
+      for (let list of project.listCollection) {
+        let tempToDos = list.toDos.map(toDo => {
+          return (toDo[property] === value) ? toDo : null;
+        });
+        [tempToDos, list.toDos] = [list.toDos, tempToDos];
+        filteredDomList += createToDoListDom(project, list);
+        list.toDos = tempToDos;
+      }
+    }
+    return filteredDomList;
+  }
+  return { deleteObject, edit, save, recoverMethods, createProjectListDom, createListCollectionDom, createToDoListDom, createFilteredToDoList }
 })();
