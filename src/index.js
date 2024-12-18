@@ -46,11 +46,15 @@ const DomHandler = (function() {
   let currentProject = null;
   let currentList = null;
   let quickAction = null;
+  let isEditing = false;
+  let currentTask = null;
   const projectTitleInput = addProjectModal.querySelector("#project-title")
   const bindEvents = () => {
     addTaskBtn.addEventListener("click", () => {
       taskProjectSelect.innerHTML = getProjectOption();
       taskListSelect.innerHTML = getListOption();
+      isEditing = false;
+      toggleSelectElements();
       addTaskModal.showModal()
     })
     addProjectBtn.addEventListener("click", (event) => {
@@ -85,18 +89,17 @@ const DomHandler = (function() {
         RenderHandler.renderProject(listContainer, addListBtn, UtilityHandler.createListCollectionDom(currentProject))
       }
     })
+    //renderToDos can be used below
     quickActionContainer.addEventListener("click", (event) => {
       let classList = Array.from(event.target.classList)
       if (classList.includes("all")) {
-        RenderHandler.renderAllToDos(toDoContainer, addTaskBtn, list);
         quickAction = "all";
       } else if (classList.includes("pending")) {
-        RenderHandler.renderList(toDoContainer, addTaskBtn, UtilityHandler.createFilteredToDoList("hasBeenCompleted", false));
         quickAction = "pending";
       } else if (classList.includes("completed")) {
         quickAction = "completed";
-        RenderHandler.renderList(toDoContainer, addTaskBtn, UtilityHandler.createFilteredToDoList("hasBeenCompleted", true));
       }
+      renderToDos();
     })
     submitListBtn.addEventListener("click", () => {
       currentProject = list[Number(listProjectSelect.value)];
@@ -119,37 +122,39 @@ const DomHandler = (function() {
     })
     submitTaskBtn.addEventListener("click", () => {
       currentProject = list[Number(taskProjectSelect.value)];
-      currentList = currentProject.listCollection[Number(taskListSelect.value)]
-      currentList.addToDo({
-        title: taskTitleInput.value, description: taskDescriptionInput.value,
-        dueDate: dueDateInput?.value, priority: priorityInput.value,
-        hasBeenCompleted: taskStatusInput.checked
-      })
+      currentList = currentProject.listCollection[Number(taskListSelect.value)];
+      if (isEditing) {
+        editTask();
+      } else {
+        currentList.addToDo({
+          title: taskTitleInput.value, description: taskDescriptionInput.value,
+          dueDate: dueDateInput?.value, priority: priorityInput.value,
+          hasBeenCompleted: taskStatusInput.checked
+        })
+      }
       UtilityHandler.save();
       console.log(list)
-      RenderHandler.renderList(toDoContainer, addTaskBtn, UtilityHandler.createToDoListDom(currentProject, currentList))
+      renderToDos();
       addTaskModal.close();
     })
     toDoContainer.addEventListener("click", (event) => {
+      let classList = Array.from(event.target.classList);
       if (event.target === addTaskBtn) return
       let article = event.target.closest("[data-task-index]");
       currentProject = list[Number(article.dataset.projectIndex)];
       currentList = currentProject.listCollection[Number(article?.dataset.listIndex)];
-      let toDo = currentList.toDos[Number(article?.dataset.taskIndex)];
-      if (Array.from(event.target.classList).includes("del-task-btn")) {
-        UtilityHandler.deleteObject(currentList.toDos.indexOf(toDo), currentList.toDos);
-        if (quickAction != null) {
-          if (quickAction === "all") {
-            RenderHandler.renderAllToDos(toDoContainer, addTaskBtn, list);
-          } else {
-            RenderHandler.renderList(toDoContainer, addTaskBtn, UtilityHandler.createFilteredToDoList("hasBeenCompleted", quickAction === "completed"));
-          }
-        } else {
-          RenderHandler.renderList(toDoContainer, addTaskBtn, UtilityHandler.createToDoListDom(currentProject, currentList));
-        }
+      currentTask = currentList.toDos[Number(article?.dataset.taskIndex)];
+      if (classList.includes("del-task-btn")) {
+        UtilityHandler.deleteObject(currentList.toDos.indexOf(currentTask), currentList.toDos);
+        renderToDos();
       } else if (event.target.tagName.toLowerCase() === "input") {
-        toDo.hasBeenCompleted = !toDo.hasBeenCompleted;
-        event.target.parentNode.innerHTML = `<input type="checkbox" ${toDo.hasBeenCompleted ? "checked" : ""}> ${toDo.hasBeenCompleted ? "Completed" : "Pending"}`
+        currentTask.hasBeenCompleted = !currentTask.hasBeenCompleted;
+        event.target.parentNode.innerHTML = `<input type="checkbox" ${currentTask.hasBeenCompleted ? "checked" : ""}> ${toDo.hasBeenCompleted ? "Completed" : "Pending"}`
+      } else if (classList.includes("edit-task-btn")) {
+        populateTaskModal(); //popukates the modal with currentTask's info
+        isEditing = true;
+        toggleSelectElements(); //disables the select elements
+        addTaskModal.show();
       }
       UtilityHandler.save();
     })
@@ -171,6 +176,43 @@ const DomHandler = (function() {
       }
       return options += `<option value="${index}">${optionTitle}</option>`;
     }, ``)
+  }
+  const editTask = () => {
+    currentTask.title = taskTitleInput.value;
+    currentTask.description = taskDescriptionInput.value;
+    currentTask.dueDate = dueDateInput.value;
+    currentTask.priority = priorityInput.value;
+    currentTask.hasBeenCompleted = taskStatusInput.checked;
+  }
+  const renderToDos = () => {
+    if (quickAction != null) {
+      if (quickAction === "all") {
+        RenderHandler.renderAllToDos(toDoContainer, addTaskBtn, list);
+      } else {
+        RenderHandler.renderList(toDoContainer, addTaskBtn, UtilityHandler.createFilteredToDoList("hasBeenCompleted", quickAction === "completed"));
+      }
+    } else {
+      RenderHandler.renderList(toDoContainer, addTaskBtn, UtilityHandler.createToDoListDom(currentProject, currentList));
+    }
+  }
+  const toggleSelectElements = () => {
+    // disables or enables the select element based on the situation
+    if (isEditing) {
+      taskProjectSelect.setAttribute("disabled", "disabled");
+      taskListSelect.setAttribute("disabled", "disabled");
+      return;
+    }
+    taskProjectSelect.removeAttribute("disabled");
+    taskListSelect.removeAttribute("disabled");
+  }
+  const populateTaskModal = () => {
+    taskTitleInput.value = currentTask.title;
+    taskDescriptionInput.value = currentTask.description;
+    dueDateInput.value = currentTask.dueDate;
+    priorityInput.value = currentTask.priority;
+    taskStatusInput.checked = currentTask.hasBeenCompleted;
+    taskProjectSelect.innerHTML = getProjectOption();
+    taskListSelect.innerHTML = getListOption();
   }
   return { bindEvents }
 })();
