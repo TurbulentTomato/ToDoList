@@ -98,6 +98,8 @@ const DomHandler = (function() {
         quickAction = "pending";
       } else if (classList.includes("completed")) {
         quickAction = "completed";
+      } else if (classList.includes("important")) {
+        quickAction = "important";
       }
       renderToDos();
     })
@@ -124,13 +126,9 @@ const DomHandler = (function() {
       currentProject = list[Number(taskProjectSelect.value)];
       currentList = currentProject.listCollection[Number(taskListSelect.value)];
       if (isEditing) {
-        editTask();
+        UtilityHandler.edit(currentTask, createToDoFromInput());
       } else {
-        currentList.addToDo({
-          title: taskTitleInput.value, description: taskDescriptionInput.value,
-          dueDate: dueDateInput?.value, priority: priorityInput.value,
-          hasBeenCompleted: taskStatusInput.checked
-        })
+        currentList.addToDo(createToDoFromInput());
       }
       UtilityHandler.save();
       console.log(list)
@@ -177,13 +175,6 @@ const DomHandler = (function() {
       return options += `<option value="${index}">${optionTitle}</option>`;
     }, ``)
   }
-  const editTask = () => {
-    currentTask.title = taskTitleInput.value;
-    currentTask.description = taskDescriptionInput.value;
-    currentTask.dueDate = dueDateInput.value;
-    currentTask.priority = priorityInput.value;
-    currentTask.hasBeenCompleted = taskStatusInput.checked;
-  }
   const renderToDos = () => {
     if (quickAction != null) {
       if (quickAction === "all") {
@@ -213,6 +204,13 @@ const DomHandler = (function() {
     taskStatusInput.checked = currentTask.hasBeenCompleted;
     taskProjectSelect.innerHTML = getProjectOption();
     taskListSelect.innerHTML = getListOption();
+  }
+  const createToDoFromInput = () => {
+    return {
+      title: taskTitleInput.value, description: taskDescriptionInput.value,
+      dueDate: dueDateInput?.value, priority: priorityInput.value,
+      hasBeenCompleted: taskStatusInput.checked
+    }
   }
   return { bindEvents }
 })();
