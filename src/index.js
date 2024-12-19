@@ -43,6 +43,7 @@ const DomHandler = (function() {
   const dueDateInput = document.querySelector("#due-date");
   const priorityInput = document.querySelector("#priority");
   const taskStatusInput = document.querySelector("#has-been-completed");
+  const isTaskImprtant = document.querySelector("#is-important");
   let currentProject = null;
   let currentList = null;
   let quickAction = null;
@@ -147,7 +148,7 @@ const DomHandler = (function() {
         renderToDos();
       } else if (event.target.tagName.toLowerCase() === "input") {
         currentTask.hasBeenCompleted = !currentTask.hasBeenCompleted;
-        event.target.parentNode.innerHTML = `<input type="checkbox" ${currentTask.hasBeenCompleted ? "checked" : ""}> ${toDo.hasBeenCompleted ? "Completed" : "Pending"}`
+        event.target.parentNode.innerHTML = `<input type="checkbox" ${currentTask.hasBeenCompleted ? "checked" : ""}> ${currentTask.hasBeenCompleted ? "Completed" : "Pending"}`
       } else if (classList.includes("edit-task-btn")) {
         populateTaskModal(); //popukates the modal with currentTask's info
         isEditing = true;
@@ -209,7 +210,7 @@ const DomHandler = (function() {
     return {
       title: taskTitleInput.value, description: taskDescriptionInput.value,
       dueDate: dueDateInput?.value, priority: priorityInput.value,
-      hasBeenCompleted: taskStatusInput.checked
+      hasBeenCompleted: taskStatusInput.checked, isImportant: isTaskImprtant.checked
     }
   }
   return { bindEvents }
