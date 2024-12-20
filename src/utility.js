@@ -44,11 +44,17 @@ export const UtilityHandler = (function() {
     }, ``)
   }
   const createToDoListDom = (project, list) => {
-    let projectIndex = ProjectList.getList().indexOf(project)
+    let renderingImportant = true;
+    let projectIndex = ProjectList.getList().indexOf(project);
     let listIndex = project.listCollection.indexOf(list);
-    let toDoList = list.toDos.map((toDo, index) => {
-      if (toDo === null) return ``;
-      return `<article data-task-index="${index}" data-list-index="${listIndex}" data-project-index="${projectIndex}">
+    let toDoList = createArticles({ projectIndex, listIndex, list }, true);
+    toDoList += createArticles({ projectIndex, listIndex, list }, false);
+    /*do {
+      list.toDos.forEach((toDo, index) => {
+        if (toDo === null || toDo.isImportant !== renderingImportant) {
+          return;
+        }
+        toDoList += `<article data-task-index="${index}" data-list-index="${listIndex}" data-project-index="${projectIndex}">
 <h4>${toDo.title}</h4>
 <p>${toDo.description}</p>
 <p>Due-Date: ${toDo.dueDate}</p>
@@ -57,25 +63,53 @@ export const UtilityHandler = (function() {
 <label><input type="checkbox" class="toggle-is-important"${toDo.isImportant ? "checked" : ""}> Important</label>
 <button type="button" class="del-task-btn">×</button>
 <button type="button" class="edit-task-btn">Edit</button>
-</article>
-`
-    })
-    return toDoList.join("")
+</article>`
+      })
+      renderingImportant = (renderingImportant) ? false : null;
+    } while (renderingImportant !== null)*/
+    return toDoList;
   }
   const createFilteredToDoList = (property, value) => {
+    let renderingImportant = true;
     let projectList = ProjectList.getList();
     let filteredDomList = ``;
-    for (const project of projectList) {
-      for (let list of project.listCollection) {
-        let tempToDos = list.toDos.map(toDo => {
-          return (toDo[property] === value) ? toDo : null;
-        });
-        [tempToDos, list.toDos] = [list.toDos, tempToDos];
-        filteredDomList += createToDoListDom(project, list);
-        list.toDos = tempToDos;
-      }
-    }
+    do {
+      for (const project of projectList) {
+        for (let list of project.listCollection) {
+          let tempToDos = list.toDos.map(toDo => {
+            return (toDo[property] === value) ? toDo : null;
+          });
+          [tempToDos, list.toDos] = [list.toDos, tempToDos];
+          filteredDomList += createArticles({
+            projectIndex: projectList.indexOf(project),
+            listIndex: project.listCollection.indexOf(list),
+            list
+          }, renderingImportant);
+          list.toDos = tempToDos;
+        }
+      } renderingImportant = renderingImportant ? false : null;
+    } while (renderingImportant !== null)
     return filteredDomList;
   }
-  return { deleteObject, edit, save, recoverMethods, createProjectListDom, createListCollectionDom, createToDoListDom, createFilteredToDoList }
+  const createArticles = (data, onlyForImportant = true) => {
+    let { projectIndex, listIndex, list } = data;
+    let toDoList = ``;
+    list.toDos.forEach((toDo, index) => {
+      if (toDo === null || toDo.isImportant !== onlyForImportant) {
+        return;
+      }
+      toDoList += `<article data-task-index="${index}" data-list-index="${listIndex}" data-project-index="${projectIndex}">
+<h4>${toDo.title}</h4>
+<p>${toDo.description}</p>
+<p>Due-Date: ${toDo.dueDate}</p>
+<p>Priority: ${toDo.priority}</p>
+<label><input type="checkbox" class="toggle-has-been-completed" ${toDo.hasBeenCompleted ? "checked" : ""}> ${toDo.hasBeenCompleted ? "Completed" : "Pending"}</label>
+<label><input type="checkbox" class="toggle-is-important"${toDo.isImportant ? "checked" : ""}> Important</label>
+<button type="button" class="del-task-btn">×</button>
+<button type="button" class="edit-task-btn">Edit</button>
+</article>`
+    })
+    return toDoList;
+  }
+  return { deleteObject, edit, save, recoverMethods, createProjectListDom, createListCollectionDom, createToDoListDom, createFilteredToDoList, createArticles }
 })();
