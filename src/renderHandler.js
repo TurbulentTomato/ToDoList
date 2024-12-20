@@ -44,12 +44,20 @@ export const RenderHandler = (function() {
     }
     console.log(output);*/
     let innerHtml = ``;
-    projectList.forEach(project => {
-      for (const element of project.listCollection) {
-        innerHtml += (UtilityHandler.createToDoListDom(project, element));
-      }
-      renderList(container, addBtn, innerHtml)
-    });
+    let renderingImportant = true;
+    do {
+      projectList.forEach(project => {
+        for (const element of project.listCollection) {
+          innerHtml += UtilityHandler.createArticles({
+            projectIndex: projectList.indexOf(project),
+            listIndex: project.listCollection.indexOf(element),
+            list: element
+          }, renderingImportant);
+        }
+        renderList(container, addBtn, innerHtml)
+      });
+      renderingImportant = renderingImportant ? false : null;
+    } while (renderingImportant != null)
   }
   return { renderProjectList, renderProject, renderList, renderToDos, renderAllToDos }
 })();
