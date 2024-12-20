@@ -146,14 +146,17 @@ const DomHandler = (function() {
       if (classList.includes("del-task-btn")) {
         UtilityHandler.deleteObject(currentList.toDos.indexOf(currentTask), currentList.toDos);
         renderToDos();
-      } else if (event.target.tagName.toLowerCase() === "input") {
+      } else if (classList.includes("toggle-has-been-completed")) {
         currentTask.hasBeenCompleted = !currentTask.hasBeenCompleted;
-        event.target.parentNode.innerHTML = `<input type="checkbox" ${currentTask.hasBeenCompleted ? "checked" : ""}> ${currentTask.hasBeenCompleted ? "Completed" : "Pending"}`
+        event.target.parentNode.innerHTML = `<input type="checkbox" class="toggle-has-been-completed" ${currentTask.hasBeenCompleted ? "checked" : ""}> ${currentTask.hasBeenCompleted ? "Completed" : "Pending"}`
       } else if (classList.includes("edit-task-btn")) {
         populateTaskModal(); //popukates the modal with currentTask's info
         isEditing = true;
         toggleSelectElements(); //disables the select elements
         addTaskModal.show();
+      } else if (classList.includes("toggle-is-important")) {
+        currentTask.isImportant = !currentTask.isImportant;
+        event.target.parentNode.innerHTML = `<input type="checkbox" class="toggle-is-important" ${currentTask.isImportant ? "checked" : ""}> Important`
       }
       UtilityHandler.save();
     })
@@ -180,6 +183,8 @@ const DomHandler = (function() {
     if (quickAction != null) {
       if (quickAction === "all") {
         RenderHandler.renderAllToDos(toDoContainer, addTaskBtn, list);
+      } else if (quickAction === "important") {
+        RenderHandler.renderList(toDoContainer, addTaskBtn, UtilityHandler.createFilteredToDoList("isImportant", true));
       } else {
         RenderHandler.renderList(toDoContainer, addTaskBtn, UtilityHandler.createFilteredToDoList("hasBeenCompleted", quickAction === "completed"));
       }
