@@ -53,7 +53,8 @@ export const UtilityHandler = (function() {
 <p>${toDo.description}</p>
 <p>Due-Date: ${toDo.dueDate}</p>
 <p>Priority: ${toDo.priority}</p>
-<label><input type="checkbox" ${toDo.hasBeenCompleted ? "checked" : ""}> ${toDo.hasBeenCompleted ? "Completed" : "Pending"}</label>
+<label><input type="checkbox" class="toggle-has-been-completed" ${toDo.hasBeenCompleted ? "checked" : ""}> ${toDo.hasBeenCompleted ? "Completed" : "Pending"}</label>
+<label><input type="checkbox" class="toggle-is-important"${toDo.isImportant ? "checked" : ""}> Important</label>
 <button type="button" class="del-task-btn">×</button>
 <button type="button" class="edit-task-btn">Edit</button>
 </article>
