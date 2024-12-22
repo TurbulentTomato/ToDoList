@@ -9,19 +9,20 @@
 <body>
   <div class="container">
     <nav id="sidebar">
+      <button class="toggle-sidebar">=></button>
       <div>
-        <h2>To-Dos</h2>
+        <h2><span>•</span>To-Dos</h2>
         <ul class="quick-actions">
-          <li><button type="button" class="all">All</button></li>
-          <li><button type="button" class="important">Important</button></li>
-          <li><button type="button" class="pending">Pending</button></li>
-          <li><button type="button" class="completed">Completed</button></li>
+          <li><button type="button" class="all"><span class="all">#</span>All</button></li>
+          <li><button type="button" class="important"><span class="important">#</span>Important</button></li>
+          <li><button type="button" class="pending"><span class="pending">#</span>Pending</button></li>
+          <li><button type="button" class="completed"><span class="completed">#</span>Completed</button></li>
         </ul>
       </div>
       <div>
-        <h2>Projects</h2>
+        <h2><span>•</span>Projects</h2>
         <ul class="project-list">
-          <li><button type="button" id="add-project-btn">+</button></li>
+          <li><button type="button" id="add-project-btn"><span>+</span>Add New</button></li>
         </ul>
       </div>
     </nav>
