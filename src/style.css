@@ -79,3 +79,15 @@ main {
 
   border: 2px solid black;
 }
+
+#add-project-btn {
+  span {
+    font-weight: 600;
+  }
+}
+
+.toggle-sidebar {
+  border: none;
+  background-color: var(--bg-main);
+  transition: 200ms ease-in-out;
+}
