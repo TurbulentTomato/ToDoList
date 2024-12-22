@@ -23,7 +23,7 @@ body {
   grid-template-rows: auto 1fr;
 
   aside {
-    height: clamp(70px, 7vh + 15px, 150px);
+    height: clamp(100px, 7vh + 15px, 150px);
     border: 2px solid black;
     display: grid;
     padding: 0.5rem 1rem 0;
