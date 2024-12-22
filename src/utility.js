@@ -28,7 +28,7 @@ export const UtilityHandler = (function() {
     let list = ProjectList.getList().map(project => project.title);
     return list.reduce((innerHtml, projectTitle, index) => {
       return innerHtml += `<li data-index="${index}">
-<button type="button">${projectTitle}</button>
+<button type="button"><span>#</span>${projectTitle}</button>
 <button type="button" class="del-project-btn">×</button>
 </li>`
     }, ``)
