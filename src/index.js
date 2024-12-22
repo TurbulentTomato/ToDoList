@@ -49,7 +49,8 @@ const DomHandler = (function() {
   let quickAction = null;
   let isEditing = false;
   let currentTask = null;
-  const projectTitleInput = addProjectModal.querySelector("#project-title")
+  const projectTitleInput = addProjectModal.querySelector("#project-title");
+  const toggleSidebarBtn = document.querySelector(".toggle-sidebar");
   const bindEvents = () => {
     addTaskBtn.addEventListener("click", () => {
       taskProjectSelect.innerHTML = getProjectOption();
@@ -79,12 +80,13 @@ const DomHandler = (function() {
       addProjectModal.close();
     })
     projectContainer.addEventListener("click", (event) => {
+      if (event.target.id === "add-project-btn" || event.target.parentNode.id === "add-project-btn") return
       let li = event.target.closest("[data-index]")
       if (Array.from(event.target.classList).includes("del-project-btn")) {
         UtilityHandler.deleteObject(Number(li?.dataset.index), list);
         UtilityHandler.save();
         RenderHandler.renderProjectList(projectContainer, addProjectBtn, UtilityHandler.createProjectListDom());
-      } else if (event.target.tagName.toLowerCase() === "button" && event.target.id !== "add-project-btn") {
+      } else if (event.target.tagName.toLowerCase() === "button" || event.target.tagName.toLowerCase() === "span") {
         quickAction = null;
         currentProject = list[Number(li?.dataset.index)];
         RenderHandler.renderProject(listContainer, addListBtn, UtilityHandler.createListCollectionDom(currentProject))
@@ -159,6 +161,10 @@ const DomHandler = (function() {
         event.target.parentNode.innerHTML = `<input type="checkbox" class="toggle-is-important" ${currentTask.isImportant ? "checked" : ""}> Important`
       }
       UtilityHandler.save();
+    })
+    toggleSidebarBtn.addEventListener("click", () => {
+      sidebar.classList.toggle("close");
+      toggleSidebarBtn.classList.toggle("close");
     })
   }
   const getProjectOption = () => {
