@@ -52,10 +52,15 @@ const DomHandler = (function() {
   const projectTitleInput = addProjectModal.querySelector("#project-title");
   const toggleSidebarBtn = document.querySelector(".toggle-sidebar");
   const toggleSidebarImg = toggleSidebarBtn.querySelector("img");
+  const cancelTaskBtn = document.querySelector(".add-task-modal .cancel-btn");
+  let tempCurrentProject = null;
+  let tempCurrentList = null;
   let domProject = null; //holds the li which refers to current project
   let domList = null; //like domProject but for currentList
   const bindEvents = () => {
     addTaskBtn.addEventListener("click", () => {
+      tempCurrentProject = currentProject;
+      tempCurrentList = currentList;
       taskProjectSelect.innerHTML = getProjectOption();
       taskListSelect.innerHTML = getListOption();
       isEditing = false;
@@ -130,7 +135,7 @@ const DomHandler = (function() {
     })
     submitTaskBtn.addEventListener("click", () => {
       updateCurrentProject(list[Number(taskProjectSelect.value)], document.querySelector(`[data-index="${taskProjectSelect.value}"]`));
-      updateCurrentList(currentProject.listCollection[Number(taskListSelect.value)], document.querySelector(`aside li[data-list-index="${taskListSelect.value}"]`));
+      updateCurrentList(currentProject.listCollection[Number(taskListSelect.value)], document.querySelector(`li[data-list-index="${taskListSelect.value}"]`));
       if (isEditing) {
         UtilityHandler.edit(currentTask, createToDoFromInput());
       } else {
@@ -169,6 +174,16 @@ const DomHandler = (function() {
       sidebar.classList.toggle("close");
       toggleSidebarBtn.classList.toggle("close");
       toggleSidebarImg.classList.toggle("close");
+    })
+    taskProjectSelect.addEventListener("change", () => {
+      currentProject = list[Number(taskProjectSelect.value)];
+      taskListSelect.innerHTML = getListOption();
+      RenderHandler.renderProject(listContainer, addListBtn, UtilityHandler.createListCollectionDom(currentProject));
+    })
+    cancelTaskBtn.addEventListener("click", () => {
+      updateCurrentProject(tempCurrentProject, domProject);
+      RenderHandler.renderProject(listContainer, addListBtn, UtilityHandler.createListCollectionDom(currentProject));
+      updateCurrentList(tempCurrentList, document.querySelector(`li[data-list-index="${currentProject.listCollection.indexOf(tempCurrentList)}"]`));
     })
   }
   const getProjectOption = () => {
@@ -239,6 +254,9 @@ const DomHandler = (function() {
     currentProject = project;
     domProject = domReference;
     domProject.classList.toggle("current-project");
+  }
+  const getDomList = () => {
+    return document.querySelector(`li[data-list-index="${currentProject.listCollection.indexOf(currentList)}"]`)
   }
   return { bindEvents }
 })();
