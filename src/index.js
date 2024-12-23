@@ -51,6 +51,9 @@ const DomHandler = (function() {
   let currentTask = null;
   const projectTitleInput = addProjectModal.querySelector("#project-title");
   const toggleSidebarBtn = document.querySelector(".toggle-sidebar");
+  const toggleSidebarImg = toggleSidebarBtn.querySelector("img");
+  let domProject = null; //holds the li which refers to current project
+  let domList = null; //like domProject but for currentList
   const bindEvents = () => {
     addTaskBtn.addEventListener("click", () => {
       taskProjectSelect.innerHTML = getProjectOption();
@@ -88,7 +91,7 @@ const DomHandler = (function() {
         RenderHandler.renderProjectList(projectContainer, addProjectBtn, UtilityHandler.createProjectListDom());
       } else if (event.target.tagName.toLowerCase() === "button" || event.target.tagName.toLowerCase() === "span") {
         quickAction = null;
-        currentProject = list[Number(li?.dataset.index)];
+        updateCurrentProject(list[Number(li?.dataset.index)], li);
         RenderHandler.renderProject(listContainer, addListBtn, UtilityHandler.createListCollectionDom(currentProject))
       }
     })
@@ -121,13 +124,13 @@ const DomHandler = (function() {
         RenderHandler.renderProject(listContainer, addListBtn, UtilityHandler.createListCollectionDom(currentProject));
       } else if (event.target.tagName.toLowerCase() === "button" && event.target.id !== "add-list-btn") {
         console.log("rendering todos")
-        currentList = currentProject.listCollection[Number(li?.dataset.listIndex)];
+        updateCurrentList(currentProject.listCollection[Number(li?.dataset.listIndex)], li);
         RenderHandler.renderList(toDoContainer, addTaskBtn, UtilityHandler.createToDoListDom(currentProject, currentList))
       }
     })
     submitTaskBtn.addEventListener("click", () => {
-      currentProject = list[Number(taskProjectSelect.value)];
-      currentList = currentProject.listCollection[Number(taskListSelect.value)];
+      updateCurrentProject(list[Number(taskProjectSelect.value)], document.querySelector(`[data-index="${taskProjectSelect.value}"]`));
+      updateCurrentList(currentProject.listCollection[Number(taskListSelect.value)], document.querySelector(`aside li[data-list-index="${taskListSelect.value}"]`));
       if (isEditing) {
         UtilityHandler.edit(currentTask, createToDoFromInput());
       } else {
@@ -165,6 +168,7 @@ const DomHandler = (function() {
     toggleSidebarBtn.addEventListener("click", () => {
       sidebar.classList.toggle("close");
       toggleSidebarBtn.classList.toggle("close");
+      toggleSidebarImg.classList.toggle("close");
     })
   }
   const getProjectOption = () => {
@@ -223,6 +227,18 @@ const DomHandler = (function() {
       dueDate: dueDateInput?.value, priority: priorityInput.value,
       hasBeenCompleted: taskStatusInput.checked, isImportant: isTaskImprtant.checked
     }
+  }
+  const updateCurrentList = (list, domReference) => {
+    domList?.classList.remove("current-list");
+    currentList = list;
+    domList = domReference;
+    domList.classList.add("current-list");
+  }
+  const updateCurrentProject = (project, domReference) => {
+    domProject?.classList.toggle("current-project");
+    currentProject = project;
+    domProject = domReference;
+    domProject.classList.toggle("current-project");
   }
   return { bindEvents }
 })();
