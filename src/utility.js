@@ -1,5 +1,6 @@
 import { ProjectList, listCreator } from "./barrelModule";
 export const UtilityHandler = (function() {
+  const priorityClass = ["p-high", "p-med", "p-low"];
   const deleteObject = (objectIndex, array) => {
     array.splice(objectIndex, 1);
   }
@@ -98,7 +99,7 @@ export const UtilityHandler = (function() {
       if (toDo === null || toDo.isImportant !== onlyForImportant) {
         return;
       }
-      toDoList += `<article data-task-index="${index}" data-list-index="${listIndex}" data-project-index="${projectIndex}">
+      toDoList += `<article class="${priorityClass[toDo.priority]}" data-task-index="${index}" data-list-index="${listIndex}" data-project-index="${projectIndex}">
 <h4>${toDo.title}</h4>
 <p>${toDo.description}</p>
 <p>Due-Date: ${toDo.dueDate}</p>
