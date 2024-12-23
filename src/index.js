@@ -134,11 +134,11 @@ const DomHandler = (function() {
       }
     })
     submitTaskBtn.addEventListener("click", () => {
-      updateCurrentProject(list[Number(taskProjectSelect.value)], document.querySelector(`[data-index="${taskProjectSelect.value}"]`));
-      updateCurrentList(currentProject.listCollection[Number(taskListSelect.value)], document.querySelector(`li[data-list-index="${taskListSelect.value}"]`));
       if (isEditing) {
         UtilityHandler.edit(currentTask, createToDoFromInput());
       } else {
+        updateCurrentProject(list[Number(taskProjectSelect.value)], document.querySelector(`[data-index="${taskProjectSelect.value}"]`));
+        updateCurrentList(currentProject.listCollection[Number(taskListSelect.value)], document.querySelector(`li[data-list-index="${taskListSelect.value}"]`));
         currentList.addToDo(createToDoFromInput());
       }
       UtilityHandler.save();
@@ -181,6 +181,7 @@ const DomHandler = (function() {
       RenderHandler.renderProject(listContainer, addListBtn, UtilityHandler.createListCollectionDom(currentProject));
     })
     cancelTaskBtn.addEventListener("click", () => {
+      if (isEditing) return;
       updateCurrentProject(tempCurrentProject, domProject);
       RenderHandler.renderProject(listContainer, addListBtn, UtilityHandler.createListCollectionDom(currentProject));
       updateCurrentList(tempCurrentList, document.querySelector(`li[data-list-index="${currentProject.listCollection.indexOf(tempCurrentList)}"]`));
