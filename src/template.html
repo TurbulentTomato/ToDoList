@@ -9,18 +9,37 @@
 <body>
   <div class="container">
     <nav id="sidebar">
-      <button class="toggle-sidebar">=></button>
+      <button class="toggle-sidebar">
+        <div>Sidebar</div> <img src="images/arrowhead-right-outline-svgrepo-com.svg" alt="" width="50px" height="50px">
+      </button>
       <div>
-        <h2><span>•</span>To-Dos</h2>
+        <h2><img src="images/gopro-quik-svgrepo-com.svg" alt="" width="40px" height="40px">Actions</h2>
         <ul class="quick-actions">
-          <li><button type="button" class="all"><span class="all">#</span>All</button></li>
-          <li><button type="button" class="important"><span class="important">#</span>Important</button></li>
-          <li><button type="button" class="pending"><span class="pending">#</span>Pending</button></li>
-          <li><button type="button" class="completed"><span class="completed">#</span>Completed</button></li>
+          <li><button type="button" class="all">
+              <img src="images/asterisk-svgrepo-com.svg" alt="" class="all" width="40px" height="40px">
+              All
+            </button>
+          </li>
+          <li><button type="button" class="important">
+              <img src="images/star-exclamation-svgrepo-com.svg" alt="" class="important" width="40px" height="40px">
+              Important
+            </button>
+          </li>
+          <li><button type="button" class="pending">
+              <img src="images/system-pending-line-svgrepo-com.svg" alt="" class="pending" width="40px" height="40px">
+              Pending
+            </button>
+          </li>
+          <li>
+            <button type="button" class="completed">
+              <img src="images/done-all-svgrepo-com.svg" alt="" class="completed" width="40px" height="40px">
+              Completed
+            </button>
+          </li>
         </ul>
       </div>
       <div>
-        <h2><span>•</span>Projects</h2>
+        <h2><img src="images/folder-file-project-svgrepo-com.svg" alt="" width="40px" height="40px">Projects</h2>
         <ul class="project-list">
           <li><button type="button" id="add-project-btn"><span>+</span>Add New</button></li>
         </ul>
@@ -57,9 +76,9 @@
             <label for="priority">
               Priority
               <select name="priority" id="priority">
-                <option value="high">High</option>
-                <option value="medium">Medium</option>
-                <option value="low">Low</option>
+                <option value="0">High</option>
+                <option value="1">Medium</option>
+                <option value="2">Low</option>
               </select>
             </label>
             <label for="task-project-select">
