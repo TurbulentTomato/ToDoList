@@ -1,6 +1,7 @@
 :root {
   /*--bg-main: #111;*/
-  --bg-main: white;
+  --bg-main: #EDEDE8;
+  --bg-sidebar-main: #ffd7ba;
   --text-main: black;
   --bg-secondary: #3C3D37;
   --cream-color: #ECDFCC;
@@ -24,7 +25,6 @@ body {
 
   aside {
     height: clamp(100px, 7vh + 15px, 150px);
-    border: 2px solid black;
     display: grid;
     padding: 0.5rem 1rem 0;
     grid-template-rows: auto 1fr;
@@ -35,6 +35,11 @@ body {
       white-space: nowrap;
       padding: 0.3rem;
       font-family: sans-serif;
+      background-color: transparent;
+
+      &.current {
+        background-color: var(--bg-main);
+      }
     }
 
     ul {
@@ -46,9 +51,14 @@ body {
 
       li {
         display: flex;
-        border-radius: 4px;
+        border-radius: 4px 4px 0 0;
         overflow: hidden;
         flex: 0 0 auto;
+
+        &.current-list {
+          transition: 400ms ease-in-out;
+          background-color: var(--bg-main);
+        }
       }
     }
   }
@@ -65,29 +75,65 @@ ul {
 
 main {
   padding: 0.7rem;
+  padding-top: 1.3rem;
+  display: grid;
+  grid-template-rows: auto;
+  align-content: start;
+  gap: 1.5rem;
+  background-color: #EDEDE9;
 
   #add-task-btn {
     position: fixed;
     bottom: 2px;
     right: 2px;
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    border: 2px solid;
+    font-size: 35px;
+    opacity: 0.7;
+    background-color: var(--bg-sidebar-main);
+
+    &:hover {
+      opacity: 1;
+    }
   }
 
   article {
     padding: 0.6rem;
     border-radius: 1rem;
+    --priority-color: #000;
+    border: 2px solid;
+    border-left: 5px solid var(--priority-color);
+    background-color: #fff;
+
+
+    &.p-high {
+      --priority-color: #FF0A54;
+    }
+
+    &.p-med {
+      --priority-color: #FFE45E;
+    }
+
+    &.p-low {
+      --priority-color: #60D394;
+    }
   }
 
-  border: 2px solid black;
+  article,
+  #add-task-btn {
+    transition: 200ms ease-in-out;
+
+    &:hover {
+      translate: 0px -5px;
+      box-shadow: 0px 3px 4px #888;
+    }
+  }
 }
 
 #add-project-btn {
   span {
     font-weight: 600;
   }
-}
-
-.toggle-sidebar {
-  border: none;
-  background-color: var(--bg-main);
-  transition: 200ms ease-in-out;
 }
