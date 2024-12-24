@@ -124,6 +124,8 @@ const DomHandler = (function() {
       currentProject.addList(listTitleInput.value)
       UtilityHandler.save();
       RenderHandler.renderProject(listContainer, addListBtn, UtilityHandler.createListCollectionDom(currentProject));
+      let listIndex = currentProject.listCollection.length - 1;
+      updateCurrentList(currentProject.listCollection[listIndex], document.querySelector(`li[data-list-index="${listIndex}"]`))
       addListModal.close();
     })
     listContainer.addEventListener("click", (event) => {
