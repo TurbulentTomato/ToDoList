@@ -259,9 +259,19 @@ const DomHandler = (function() {
   const getDomList = () => {
     return document.querySelector(`li[data-list-index="${currentProject.listCollection.indexOf(currentList)}"]`)
   }
-  return { bindEvents }
+  const init = () => {
+    if (list.length < 1) return;
+    RenderHandler.renderProjectList(projectContainer, addProjectBtn, UtilityHandler.createProjectListDom());
+    updateCurrentProject(list[0], document.querySelector(`[data-index="0"]`));
+    if (currentProject.listCollection.length < 1) return;
+    RenderHandler.renderProject(listContainer, addListBtn, UtilityHandler.createListCollectionDom(currentProject))
+    updateCurrentList(currentProject.listCollection[0], document.querySelector(`li[data-list-index="0"]`));
+    renderToDos();
+  }
+  return { bindEvents, init }
 })();
 DomHandler.bindEvents();
+DomHandler.init();
 //attaching functions and other things to window
 //so i can use them in dev-tools console
 window.ProjectList = ProjectList;
