@@ -98,7 +98,11 @@ const DomHandler = (function() {
       } else if (event.target.tagName.toLowerCase() === "button" || event.target.tagName.toLowerCase() === "span") {
         quickAction = null;
         updateCurrentProject(list[Number(li?.dataset.index)], li);
-        RenderHandler.renderProject(listContainer, addListBtn, UtilityHandler.createListCollectionDom(currentProject))
+        RenderHandler.renderProject(listContainer, addListBtn, UtilityHandler.createListCollectionDom(currentProject));
+        toDoContainer.innerHTML = "";
+        if (currentProject.listCollection.length < 1) return;
+        updateCurrentList(currentProject.listCollection[0], document.querySelector(`li[data-list-index="0"]`));
+        renderToDos();
       }
     })
     //renderToDos can be used below
