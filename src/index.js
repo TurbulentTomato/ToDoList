@@ -57,6 +57,7 @@ const DomHandler = (function() {
   let tempCurrentList = null;
   let domProject = null; //holds the li which refers to current project
   let domList = null; //like domProject but for currentList
+  const asideHeading = document.querySelector("aside h1");
   const bindEvents = () => {
     addTaskBtn.addEventListener("click", () => {
       tempCurrentProject = currentProject;
@@ -214,6 +215,7 @@ const DomHandler = (function() {
       } else {
         RenderHandler.renderList(toDoContainer, addTaskBtn, UtilityHandler.createFilteredToDoList("hasBeenCompleted", quickAction === "completed"));
       }
+      asideHeading.textContent = quickAction.slice(0, 1).toUpperCase().concat(quickAction.slice(1)) + " Tasks";
     } else {
       RenderHandler.renderList(toDoContainer, addTaskBtn, UtilityHandler.createToDoListDom(currentProject, currentList));
     }
@@ -249,12 +251,14 @@ const DomHandler = (function() {
     currentList = list;
     domList = domReference;
     domList.classList.add("current-list");
+    asideHeading.textContent = `${currentProject.title}: ${currentList.title}`;
   }
   const updateCurrentProject = (project, domReference) => {
     domProject?.classList.toggle("current-project");
     currentProject = project;
     domProject = domReference;
     domProject.classList.toggle("current-project");
+    asideHeading.textContent = currentProject.title;
   }
   const getDomList = () => {
     return document.querySelector(`li[data-list-index="${currentProject.listCollection.indexOf(currentList)}"]`)
