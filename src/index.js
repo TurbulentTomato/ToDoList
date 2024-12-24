@@ -163,7 +163,7 @@ const DomHandler = (function() {
         populateTaskModal(); //popukates the modal with currentTask's info
         isEditing = true;
         toggleSelectElements(); //disables the select elements
-        addTaskModal.show();
+        addTaskModal.showModal();
       } else if (classList.includes("toggle-is-important")) {
         currentTask.isImportant = !currentTask.isImportant;
         event.target.parentNode.innerHTML = `<input type="checkbox" class="toggle-is-important" ${currentTask.isImportant ? "checked" : ""}> Important`
