@@ -130,7 +130,7 @@ const DomHandler = (function() {
       } else if (event.target.tagName.toLowerCase() === "button" && event.target.id !== "add-list-btn") {
         console.log("rendering todos")
         updateCurrentList(currentProject.listCollection[Number(li?.dataset.listIndex)], li);
-        RenderHandler.renderList(toDoContainer, addTaskBtn, UtilityHandler.createToDoListDom(currentProject, currentList))
+        renderToDos();
       }
     })
     submitTaskBtn.addEventListener("click", () => {
