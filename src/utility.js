@@ -34,6 +34,9 @@ export const UtilityHandler = (function() {
 </li>`
     }, ``)
   }
+  const shiftEle = (ele, arr, shift) => {
+    arr[shift](...arr.splice(arr.indexOf(ele), 1));
+  }
   //creates a collection of lists present in an object which can be rendered to dom
   const createListCollectionDom = (project) => {
     let list = project.listCollection.map(list => list.title);
@@ -112,5 +115,5 @@ export const UtilityHandler = (function() {
     })
     return toDoList;
   }
-  return { deleteObject, edit, save, recoverMethods, createProjectListDom, createListCollectionDom, createToDoListDom, createFilteredToDoList, createArticles }
+  return { deleteObject, edit, save, recoverMethods, createProjectListDom, createListCollectionDom, createToDoListDom, createFilteredToDoList, createArticles, shiftEle }
 })();
