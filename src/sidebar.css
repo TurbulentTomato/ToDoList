@@ -46,6 +46,10 @@
     transition: 200ms ease-in-out;
     border-radius: 1rem;
 
+    &.current-project {
+      box-shadow: 0px 2px 4px #444;
+    }
+
     &:hover {
       box-shadow: 0px 2px 4px #444;
     }
@@ -101,8 +105,4 @@ span {
       rotate: 0deg;
     }
   }
-}
-
-.project-list li.current-project {
-  box-shadow: 0px 2px 4px #444;
 }
