@@ -166,6 +166,9 @@ const DomHandler = (function() {
       } else if (classList.includes("toggle-has-been-completed")) {
         currentTask.hasBeenCompleted = !currentTask.hasBeenCompleted;
         event.target.parentNode.innerHTML = `<input type="checkbox" class="toggle-has-been-completed" ${currentTask.hasBeenCompleted ? "checked" : ""}> ${currentTask.hasBeenCompleted ? "Completed" : "Pending"}`
+        let shift = currentTask.hasBeenCompleted ? "push" : "unshift";
+        UtilityHandler.shiftEle(currentTask, currentList.toDos, shift);
+        renderToDos();
       } else if (classList.includes("edit-task-btn")) {
         populateTaskModal(); //popukates the modal with currentTask's info
         isEditing = true;
