@@ -117,6 +117,7 @@ const DomHandler = (function() {
       } else if (classList.includes("important")) {
         quickAction = "important";
       }
+      updateCurrentProject(null, sidebar.querySelector(`li.${quickAction}`));
       renderToDos();
     })
     submitListBtn.addEventListener("click", () => {
@@ -267,7 +268,7 @@ const DomHandler = (function() {
     currentProject = project;
     domProject = domReference;
     domProject.classList.toggle("current-project");
-    asideHeading.textContent = currentProject.title;
+    asideHeading.textContent = currentProject?.title;
   }
   const getDomList = () => {
     return document.querySelector(`li[data-list-index="${currentProject.listCollection.indexOf(currentList)}"]`)
