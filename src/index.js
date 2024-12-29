@@ -117,8 +117,11 @@ const DomHandler = (function() {
       } else if (classList.includes("important")) {
         quickAction = "important";
       }
-      updateCurrentProject(null, sidebar.querySelector(`li.${quickAction}`));
-      renderToDos();
+      if (quickAction) {
+        listContainer.innerHTML = "";
+        updateCurrentProject(null, sidebar.querySelector(`li.${quickAction}`));
+        renderToDos();
+      }
     })
     submitListBtn.addEventListener("click", () => {
       currentProject = list[Number(listProjectSelect.value)];
