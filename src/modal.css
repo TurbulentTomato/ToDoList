@@ -56,11 +56,5 @@ dialog.add-task-modal {
       grid-area: description;
     }
 
-    label.checkbox {
-      display: grid;
-      grid-template-columns: auto 1fr;
-      gap: 0.7rem;
-      place-content: center;
-    }
   }
 }
