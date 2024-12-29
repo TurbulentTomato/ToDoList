@@ -60,6 +60,16 @@ const DomHandler = (function() {
   const asideHeading = document.querySelector("aside h1");
   const bindEvents = () => {
     addTaskBtn.addEventListener("click", () => {
+      if (currentProject === null) {
+        for (const project of list) {
+          if (project.listCollection.length > 0) {
+            currentProject = project;
+            break;
+          }
+        }
+        currentList = currentProject.listCollection[0];
+        RenderHandler.renderProject(listContainer, addListBtn, UtilityHandler.createListCollectionDom(currentProject));
+      }
       tempCurrentProject = currentProject;
       tempCurrentList = currentList;
       taskProjectSelect.innerHTML = getProjectOption();
@@ -124,6 +134,10 @@ const DomHandler = (function() {
       }
     })
     submitListBtn.addEventListener("click", () => {
+      if (taskListSelect.value === null) {
+        alert("ak")
+        return
+      }
       currentProject = list[Number(listProjectSelect.value)];
       currentProject.addList(listTitleInput.value)
       UtilityHandler.save();
@@ -148,6 +162,7 @@ const DomHandler = (function() {
       if (isEditing) {
         UtilityHandler.edit(currentTask, createToDoFromInput());
       } else {
+        quickAction = null;
         updateCurrentProject(list[Number(taskProjectSelect.value)], document.querySelector(`[data-index="${taskProjectSelect.value}"]`));
         updateCurrentList(currentProject.listCollection[Number(taskListSelect.value)], document.querySelector(`li[data-list-index="${taskListSelect.value}"]`));
         currentList.addToDo(createToDoFromInput());
@@ -196,18 +211,23 @@ const DomHandler = (function() {
     })
     cancelTaskBtn.addEventListener("click", () => {
       if (isEditing) return;
+      if (quickAction) {
+        listContainer.innerHTML = "";
+        return;
+      }
       updateCurrentProject(tempCurrentProject, domProject);
       RenderHandler.renderProject(listContainer, addListBtn, UtilityHandler.createListCollectionDom(currentProject));
       updateCurrentList(tempCurrentList, document.querySelector(`li[data-list-index="${currentProject.listCollection.indexOf(tempCurrentList)}"]`));
     })
   }
   const getProjectOption = () => {
-    return list.map(project => project.title).reduce((options, optionTitle, index) => {
+    return list.reduce((options, project, index) => {
       //makes the currentProject as default selection in *ProjectSelect elements
+      if (project.listCollection.length === 0) return ``;
       if (list.indexOf(currentProject) == index) {
-        return options += `<option value="${index}" selected>${optionTitle}</option>`;
+        return options += `<option value="${index}" selected>${project.title}</option>`;
       }
-      return options += `<option value="${index}">${optionTitle}</option>`;
+      return options += `<option value="${index}">${project.title}</option>`;
     }, ``)
   }
   const getListOption = () => {
@@ -263,14 +283,14 @@ const DomHandler = (function() {
     domList?.classList.remove("current-list");
     currentList = list;
     domList = domReference;
-    domList.classList.add("current-list");
+    domList?.classList.add("current-list");
     asideHeading.textContent = `${currentProject.title}: ${currentList.title}`;
   }
   const updateCurrentProject = (project, domReference) => {
     domProject?.classList.toggle("current-project");
     currentProject = project;
     domProject = domReference;
-    domProject.classList.toggle("current-project");
+    domProject?.classList.toggle("current-project");
     asideHeading.textContent = currentProject?.title;
   }
   const getDomList = () => {
