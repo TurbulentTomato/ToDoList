@@ -1,4 +1,5 @@
 import { ProjectList, listCreator } from "./barrelModule";
+import editIcon from "./images/edit-svgrepo-com.svg";
 export const UtilityHandler = (function() {
   const priorityClass = ["p-high", "p-med", "p-low"];
   const deleteObject = (objectIndex, array) => {
@@ -104,13 +105,17 @@ export const UtilityHandler = (function() {
       }
       toDoList += `<article class="${priorityClass[toDo.priority]}" data-task-index="${index}" data-list-index="${listIndex}" data-project-index="${projectIndex}">
 <h4>${toDo.title}</h4>
-<p>${toDo.description}</p>
+<p class="description">${toDo.description}</p>
+<hr>
 <p>Due-Date: ${toDo.dueDate}</p>
 <p>Priority: ${toDo.priority}</p>
+<hr>
 <label><input type="checkbox" class="toggle-has-been-completed" ${toDo.hasBeenCompleted ? "checked" : ""}> ${toDo.hasBeenCompleted ? "Completed" : "Pending"}</label>
 <label><input type="checkbox" class="toggle-is-important"${toDo.isImportant ? "checked" : ""}> Important</label>
 <button type="button" class="del-task-btn">×</button>
-<button type="button" class="edit-task-btn">Edit</button>
+<button type="button" class="edit-task-btn">
+<img src="${editIcon}" alt="edit task button">
+</button>
 </article>`
     })
     return toDoList;
