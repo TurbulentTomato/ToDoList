@@ -93,6 +93,7 @@ main {
     font-size: 35px;
     opacity: 0.7;
     background-color: var(--bg-sidebar-main);
+    z-index: 2;
 
     &:hover {
       opacity: 1;
@@ -106,7 +107,8 @@ main {
     border: 2px solid;
     border-left: 5px solid var(--priority-color);
     background-color: #fff;
-
+    position: relative;
+    max-width: 80ch;
 
     &.p-high {
       --priority-color: #FF0A54;
@@ -129,11 +131,98 @@ main {
       translate: 0px -5px;
       box-shadow: 0px 3px 4px #888;
     }
+
+    p {
+      max-width: 70ch;
+      max-height: 200px;
+      overflow: scroll;
+
+      &.description {
+        padding: 8px;
+        border-radius: 1rem;
+      }
+    }
+
+    hr {
+      border: 1px solid #888;
+      margin-bottom: 4px;
+    }
+  }
+
+  .del-task-btn,
+  .edit-task-btn {
+    position: absolute;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    transition: 200ms ease-in-out;
+
+    &:hover {
+      box-shadow: 0 2px 4px #888;
+    }
+  }
+
+  .del-task-btn {
+    top: -8px;
+    right: -8px;
+    background-color: #FF0A54;
+    color: #fff;
+    font-size: 20px;
+  }
+
+  .edit-task-btn {
+    right: 22px;
+    top: -8px;
+    background-color: #60D394;
   }
 }
 
 #add-project-btn {
   span {
     font-weight: 600;
+  }
+}
+
+input[type="checkbox"] {
+  appearance: none;
+  border: 2px solid black;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: grid;
+  justify-content: center;
+  justify-items: center;
+  align-content: center;
+  align-items: center;
+
+  &::before {
+    content: "";
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    box-shadow: inset 18px 18px #9381FF;
+    scale: 0;
+    transition: 200ms ease-out;
+  }
+
+  &:checked::before {
+    scale: 1;
+  }
+}
+
+label:has(input[type="checkbox"]) {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.7rem;
+  place-content: center;
+}
+
+main.flex {
+  display: flex;
+  flex-wrap: wrap;
+
+  * {
+    flex-shrink: 0;
   }
 }
