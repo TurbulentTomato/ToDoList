@@ -53,6 +53,7 @@ const DomHandler = (function() {
   const toggleSidebarBtn = document.querySelector(".toggle-sidebar");
   const toggleSidebarImg = toggleSidebarBtn.querySelector("img");
   const cancelTaskBtn = document.querySelector(".add-task-modal .cancel-btn");
+  const taskFormHeading = document.querySelector(".form-container h3");
   let tempCurrentProject = null;
   let tempCurrentList = null;
   let domProject = null; //holds the li which refers to current project
@@ -76,6 +77,7 @@ const DomHandler = (function() {
       taskListSelect.innerHTML = getListOption();
       isEditing = false;
       toggleSelectElements();
+      taskFormHeading.textContent = "Add New Task";
       addTaskModal.showModal()
     })
     addProjectBtn.addEventListener("click", (event) => {
@@ -305,6 +307,7 @@ const DomHandler = (function() {
     isTaskImprtant.checked = currentTask.isImportant;
     taskProjectSelect.innerHTML = getProjectOption();
     taskListSelect.innerHTML = getListOption();
+    taskFormHeading.textContent = "Edit Task";
   }
   const createToDoFromInput = () => {
     return {
