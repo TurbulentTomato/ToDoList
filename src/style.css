@@ -7,6 +7,11 @@
   --cream-color: #ECDFCC;
 }
 
+* {
+  font-family: serif;
+
+}
+
 body {
   width: 100vw;
   min-height: 100vh;
@@ -24,6 +29,11 @@ body {
   grid-template-rows: auto 1fr;
 
   aside {
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+    border-bottom: 2px solid;
+    z-index: 2;
     height: clamp(100px, 7vh + 15px, 150px);
     display: grid;
     padding: 0.5rem 1rem 0;
