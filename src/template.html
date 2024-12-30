@@ -60,10 +60,10 @@
       <dialog class="add-task-modal">
         <div class="form-container">
           <h3>Add New Task</h3>
-          <form>
+          <form id="add-task-form">
             <label for="task-title">
               Title
-              <input type="text" id="task-title">
+              <input type="text" id="task-title" required>
             </label>
             <label for="description">
               Description
@@ -71,7 +71,7 @@
             </label>
             <label for="due-date">
               Due-Date
-              <input type="date" id="due-date">
+              <input type="date" id="due-date" required>
             </label>
             <label for="priority">
               Priority
@@ -104,17 +104,17 @@
           </form>
           <div class="modal-btn-container">
             <button type="button" class="cancel-btn">Cancel</button>
-            <button class="submit-btn">Submit</button>
+            <button class="submit-btn" form="add-task-form">Submit</button>
           </div>
         </div>
       </dialog>
       <dialog class="add-list-modal">
         <div class="form-container">
           <h3>Add New List</h3>
-          <form>
+          <form id="add-list-form">
             <label for="list-title">
               Title
-              <input type="text" id="list-title">
+              <input type="text" id="list-title" required>
             </label>
             <label for="list-project-select">
               Project
@@ -125,22 +125,22 @@
           </form>
           <div class="modal-btn-container">
             <button type="button" class="cancel-btn">Cancel</button>
-            <button class="submit-btn">Submit</button>
+            <button class="submit-btn" form="add-list-form">Submit</button>
           </div>
         </div>
       </dialog>
       <dialog class="add-project-modal">
         <div class="form-container">
           <h3>Add New Project</h3>
-          <form>
+          <form id="add-project-form">
             <label for="project-title">
               Title
-              <input type="text" id="project-title">
+              <input type="text" id="project-title" required>
             </label>
           </form>
           <div class="modal-btn-container">
             <button type="button" class="cancel-btn">Cancel</button>
-            <button class="submit-btn">Submit</button>
+            <button class="submit-btn" form="add-project-form">Submit</button>
           </div>
         </div>
       </dialog>
