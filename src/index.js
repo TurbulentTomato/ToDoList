@@ -277,6 +277,7 @@ const DomHandler = (function() {
     dueDateInput.value = currentTask.dueDate;
     priorityInput.value = currentTask.priority;
     taskStatusInput.checked = currentTask.hasBeenCompleted;
+    isTaskImprtant.checked = currentTask.isImportant;
     taskProjectSelect.innerHTML = getProjectOption();
     taskListSelect.innerHTML = getListOption();
   }
