@@ -201,7 +201,8 @@ const DomHandler = (function() {
         addTaskModal.showModal();
       } else if (classList.includes("toggle-is-important")) {
         currentTask.isImportant = !currentTask.isImportant;
-        event.target.parentNode.innerHTML = `<input type="checkbox" class="toggle-is-important" ${currentTask.isImportant ? "checked" : ""}> Important`
+        event.target.parentNode.innerHTML = `<input type="checkbox" class="toggle-is-important" ${currentTask.isImportant ? "checked" : ""}> Important`;
+        renderToDos();
       }
       UtilityHandler.save();
     })
