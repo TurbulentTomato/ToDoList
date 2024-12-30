@@ -1,5 +1,6 @@
 import { ProjectList, listCreator } from "./barrelModule";
 import editIcon from "./images/edit-svgrepo-com.svg";
+import { format } from "date-fns";
 export const UtilityHandler = (function() {
   const priorityClass = ["p-high", "p-med", "p-low"];
   const deleteObject = (objectIndex, array) => {
@@ -107,7 +108,7 @@ export const UtilityHandler = (function() {
 <h4>${toDo.title}</h4>
 <p class="description">${toDo.description}</p>
 <hr>
-<p>Due-Date: ${toDo.dueDate}</p>
+<p>Due-Date: ${format(new Date(toDo.dueDate), "do MMM yyyy")}</p>
 <p>Priority: ${toDo.priority}</p>
 <hr>
 <label><input type="checkbox" class="toggle-has-been-completed" ${toDo.hasBeenCompleted ? "checked" : ""}> ${toDo.hasBeenCompleted ? "Completed" : "Pending"}</label>
