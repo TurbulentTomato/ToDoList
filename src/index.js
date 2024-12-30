@@ -205,8 +205,8 @@ const DomHandler = (function() {
       addTaskModal.close();
     })
     toDoContainer.addEventListener("click", (event) => {
+      if (event.target === addTaskBtn || event.target === toDoContainer) return;
       let classList = Array.from(event.target.classList);
-      if (event.target === addTaskBtn) return
       let article = event.target.closest("[data-task-index]");
       currentProject = list[Number(article.dataset.projectIndex)];
       currentList = currentProject.listCollection[Number(article?.dataset.listIndex)];
