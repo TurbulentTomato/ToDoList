@@ -2,7 +2,7 @@ import { ProjectList, listCreator } from "./barrelModule";
 import editIcon from "./images/edit-svgrepo-com.svg";
 import { format } from "date-fns";
 export const UtilityHandler = (function() {
-  const priorityClass = ["p-high", "p-med", "p-low"];
+  const priorities = ["high", "med", "low"];
   const deleteObject = (objectIndex, array) => {
     array.splice(objectIndex, 1);
   }
@@ -104,12 +104,12 @@ export const UtilityHandler = (function() {
       if (toDo === null || toDo.isImportant !== onlyForImportant) {
         return;
       }
-      toDoList += `<article class="${priorityClass[toDo.priority]}" data-task-index="${index}" data-list-index="${listIndex}" data-project-index="${projectIndex}">
+      toDoList += `<article class="p-${priorities[toDo.priority]}" data-task-index="${index}" data-list-index="${listIndex}" data-project-index="${projectIndex}">
 <h4>${toDo.title}</h4>
 <p class="description">${toDo.description}</p>
 <hr>
 <p>Due-Date: ${format(new Date(toDo.dueDate), "do MMM yyyy")}</p>
-<p>Priority: ${toDo.priority}</p>
+<p>Priority: ${priorities[toDo.priority].toUpperCase()}</p>
 <hr>
 <label><input type="checkbox" class="toggle-has-been-completed" ${toDo.hasBeenCompleted ? "checked" : ""}> ${toDo.hasBeenCompleted ? "Completed" : "Pending"}</label>
 <label><input type="checkbox" class="toggle-is-important"${toDo.isImportant ? "checked" : ""}> Important</label>
