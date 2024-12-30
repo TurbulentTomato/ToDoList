@@ -145,16 +145,24 @@ const DomHandler = (function() {
       addListModal.close();
     })
     listContainer.addEventListener("click", (event) => {
+      if (event.target === addListBtn) return;
       let li = event.target.closest("[data-list-index]");
       if (Array.from(event.target.classList).includes("del-list-btn")) {
         UtilityHandler.deleteObject(Number(li?.dataset.listIndex), currentProject.listCollection);
         UtilityHandler.save();
         RenderHandler.renderProject(listContainer, addListBtn, UtilityHandler.createListCollectionDom(currentProject));
-      } else if (event.target.tagName.toLowerCase() === "button" && event.target.id !== "add-list-btn") {
+        if (currentProject.listCollection.length !== 0) {
+          let listIndex = Number(li?.dataset.listIndex) - 1;
+          updateCurrentList(currentProject.listCollection[listIndex], document.querySelector(`li[data-list-index="${listIndex}"]`));
+        } else {
+          toDoContainer.innerHTML = "";
+          return;
+        }
+      } else if (event.target.tagName.toLowerCase() === "button") {
         console.log("rendering todos")
         updateCurrentList(currentProject.listCollection[Number(li?.dataset.listIndex)], li);
-        renderToDos();
       }
+      renderToDos();
     })
     submitTaskBtn.addEventListener("click", () => {
       if (isEditing) {
