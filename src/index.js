@@ -60,7 +60,7 @@ const DomHandler = (function() {
   const asideHeading = document.querySelector("aside h1");
   const bindEvents = () => {
     addTaskBtn.addEventListener("click", () => {
-      if (currentProject === null) {
+      if (currentProject === null || currentProject.listCollection.length === 0) {
         for (const project of list) {
           if (project.listCollection.length > 0) {
             currentProject = project;
@@ -82,7 +82,7 @@ const DomHandler = (function() {
       addProjectModal.showModal();
     })
     addListBtn.addEventListener("click", (event) => {
-      listProjectSelect.innerHTML = getProjectOption();
+      listProjectSelect.innerHTML = getProjectOption(false);
       addListModal.showModal();
     })
     cancelBtn.forEach(button => {
@@ -134,16 +134,14 @@ const DomHandler = (function() {
       }
     })
     submitListBtn.addEventListener("click", () => {
-      if (taskListSelect.value === null) {
-        alert("ak")
-        return
-      }
       currentProject = list[Number(listProjectSelect.value)];
       currentProject.addList(listTitleInput.value)
       UtilityHandler.save();
       RenderHandler.renderProject(listContainer, addListBtn, UtilityHandler.createListCollectionDom(currentProject));
       let listIndex = currentProject.listCollection.length - 1;
-      updateCurrentList(currentProject.listCollection[listIndex], document.querySelector(`li[data-list-index="${listIndex}"]`))
+      updateCurrentProject(currentProject, sidebar.querySelector(`li[data-index="${list.indexOf(currentProject)}"]`));
+      updateCurrentList(currentProject.listCollection[listIndex], document.querySelector(`li[data-list-index="${listIndex}"]`));
+      renderToDos();
       addListModal.close();
     })
     listContainer.addEventListener("click", (event) => {
@@ -220,10 +218,12 @@ const DomHandler = (function() {
       updateCurrentList(tempCurrentList, document.querySelector(`li[data-list-index="${currentProject.listCollection.indexOf(tempCurrentList)}"]`));
     })
   }
-  const getProjectOption = () => {
+  const getProjectOption = (forTask = true) => {
     return list.reduce((options, project, index) => {
       //makes the currentProject as default selection in *ProjectSelect elements
-      if (project.listCollection.length === 0) return ``;
+      if (project.listCollection.length < 1 && forTask) {
+        return options += ``;
+      }
       if (list.indexOf(currentProject) == index) {
         return options += `<option value="${index}" selected>${project.title}</option>`;
       }
