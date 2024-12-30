@@ -96,15 +96,34 @@ const DomHandler = (function() {
       ProjectList.addProject(projectTitleInput.value);
       UtilityHandler.save();
       RenderHandler.renderProjectList(projectContainer, addProjectBtn, UtilityHandler.createProjectListDom());
+      updateCurrentProject(currentProject, sidebar.querySelector(`li[data-index="${list.indexOf(currentProject)}"]`));
+      if (quickAction) {
+        updateQuickAction();
+      }
+      if (currentProject !== null && currentProject.listCollection.length !== 0) {
+        asideHeading.textContent += `: ${currentList.title}`;
+      }
       addProjectModal.close();
     })
     projectContainer.addEventListener("click", (event) => {
       if (event.target.id === "add-project-btn" || event.target.parentNode.id === "add-project-btn") return
       let li = event.target.closest("[data-index]")
       if (Array.from(event.target.classList).includes("del-project-btn")) {
+        if (list[Number(li?.dataset.index)] === currentProject) {
+          currentProject = null;
+        }
         UtilityHandler.deleteObject(Number(li?.dataset.index), list);
         UtilityHandler.save();
         RenderHandler.renderProjectList(projectContainer, addProjectBtn, UtilityHandler.createProjectListDom());
+        if (currentProject === null) {
+          quickAction = quickAction ? quickAction : "all";
+          updateQuickAction();
+          return;
+        }
+        updateCurrentProject(currentProject, sidebar.querySelector(`li[data-index="${list.indexOf(currentProject)}"]`));
+        if (currentProject.listCollection.length !== 0) {
+          asideHeading.textContent += `: ${currentList.title}`;
+        }
       } else if (event.target.tagName.toLowerCase() === "button" || event.target.tagName.toLowerCase() === "span") {
         quickAction = null;
         updateCurrentProject(list[Number(li?.dataset.index)], li);
@@ -127,11 +146,7 @@ const DomHandler = (function() {
       } else if (classList.includes("important")) {
         quickAction = "important";
       }
-      if (quickAction) {
-        listContainer.innerHTML = "";
-        updateCurrentProject(null, sidebar.querySelector(`li.${quickAction}`));
-        renderToDos();
-      }
+      if (quickAction) updateQuickAction();
     })
     submitListBtn.addEventListener("click", () => {
       currentProject = list[Number(listProjectSelect.value)];
@@ -152,10 +167,16 @@ const DomHandler = (function() {
         UtilityHandler.save();
         RenderHandler.renderProject(listContainer, addListBtn, UtilityHandler.createListCollectionDom(currentProject));
         if (currentProject.listCollection.length !== 0) {
-          let listIndex = Number(li?.dataset.listIndex) - 1;
+          let listIndex;
+          if (li?.dataset.listIndex === "0") {
+            listIndex = Number(li?.dataset.listIndex);
+          } else {
+            listIndex = Number(li?.dataset.listIndex) - 1;
+          }
           updateCurrentList(currentProject.listCollection[listIndex], document.querySelector(`li[data-list-index="${listIndex}"]`));
         } else {
           toDoContainer.innerHTML = "";
+          asideHeading.textContent = currentProject.title;
           return;
         }
       } else if (event.target.tagName.toLowerCase() === "button") {
@@ -313,6 +334,11 @@ const DomHandler = (function() {
     if (currentProject.listCollection.length < 1) return;
     RenderHandler.renderProject(listContainer, addListBtn, UtilityHandler.createListCollectionDom(currentProject))
     updateCurrentList(currentProject.listCollection[0], document.querySelector(`li[data-list-index="0"]`));
+    renderToDos();
+  }
+  const updateQuickAction = () => {
+    listContainer.innerHTML = "";
+    updateCurrentProject(null, sidebar.querySelector(`li.${quickAction}`));
     renderToDos();
   }
   return { bindEvents, init }
