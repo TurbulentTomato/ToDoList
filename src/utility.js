@@ -114,7 +114,7 @@ export const UtilityHandler = (function() {
 <label><input type="checkbox" class="toggle-is-important"${toDo.isImportant ? "checked" : ""}> Important</label>
 <button type="button" class="del-task-btn">×</button>
 <button type="button" class="edit-task-btn">
-<img src="${editIcon}" alt="edit task button">
+<img src="${editIcon}" alt="edit task button" class="edit-task-btn">
 </button>
 </article>`
     })
