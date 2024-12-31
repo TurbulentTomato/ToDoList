@@ -94,8 +94,9 @@ const DomHandler = (function() {
         addTaskModal.close();
       })
     })
-    submitProjectButton.addEventListener("click", () => {
+    submitProjectButton.addEventListener("click", (event) => {
       if (projectTitleInput.value === "") return;
+      event.preventDefault();
       ProjectList.addProject(projectTitleInput.value);
       UtilityHandler.save();
       RenderHandler.renderProjectList(projectContainer, addProjectBtn, UtilityHandler.createProjectListDom());
@@ -151,8 +152,9 @@ const DomHandler = (function() {
       }
       if (quickAction) updateQuickAction();
     })
-    submitListBtn.addEventListener("click", () => {
+    submitListBtn.addEventListener("click", (event) => {
       if (listTitleInput.value === "") return;
+      event.preventDefault();
       currentProject = list[Number(listProjectSelect.value)];
       currentProject.addList(listTitleInput.value)
       UtilityHandler.save();
@@ -189,8 +191,9 @@ const DomHandler = (function() {
       }
       renderToDos();
     })
-    submitTaskBtn.addEventListener("click", () => {
+    submitTaskBtn.addEventListener("click", (event) => {
       if (taskTitleInput.value === "" || dueDateInput.value === "") return;
+      event.preventDefault();
       if (isEditing) {
         UtilityHandler.edit(currentTask, createToDoFromInput());
       } else {
