@@ -69,7 +69,7 @@ const DomHandler = (function() {
           }
         }
         currentList = currentProject.listCollection[0];
-        RenderHandler.renderProject(listContainer, addListBtn, UtilityHandler.createListCollectionDom(currentProject));
+        RenderHandler.render(listContainer, addListBtn, UtilityHandler.createListCollectionDom(currentProject));
       }
       tempCurrentProject = currentProject;
       tempCurrentList = currentList;
@@ -99,7 +99,7 @@ const DomHandler = (function() {
       event.preventDefault();
       ProjectList.addProject(projectTitleInput.value);
       UtilityHandler.save();
-      RenderHandler.renderProjectList(projectContainer, addProjectBtn, UtilityHandler.createProjectListDom());
+      RenderHandler.render(projectContainer, addProjectBtn, UtilityHandler.createProjectListDom());
       updateCurrentProject(currentProject, sidebar.querySelector(`li[data-index="${list.indexOf(currentProject)}"]`));
       if (quickAction) {
         updateQuickAction();
@@ -118,7 +118,7 @@ const DomHandler = (function() {
         }
         UtilityHandler.deleteObject(Number(li?.dataset.index), list);
         UtilityHandler.save();
-        RenderHandler.renderProjectList(projectContainer, addProjectBtn, UtilityHandler.createProjectListDom());
+        RenderHandler.render(projectContainer, addProjectBtn, UtilityHandler.createProjectListDom());
         if (currentProject === null) {
           quickAction = quickAction ? quickAction : "all";
           updateQuickAction();
@@ -131,7 +131,7 @@ const DomHandler = (function() {
       } else if (event.target.tagName.toLowerCase() === "button" || event.target.tagName.toLowerCase() === "span") {
         quickAction = null;
         updateCurrentProject(list[Number(li?.dataset.index)], li);
-        RenderHandler.renderProject(listContainer, addListBtn, UtilityHandler.createListCollectionDom(currentProject));
+        RenderHandler.render(listContainer, addListBtn, UtilityHandler.createListCollectionDom(currentProject));
         toDoContainer.innerHTML = "";
         if (currentProject.listCollection.length < 1) return;
         updateCurrentList(currentProject.listCollection[0], document.querySelector(`li[data-list-index="0"]`));
@@ -158,7 +158,7 @@ const DomHandler = (function() {
       currentProject = list[Number(listProjectSelect.value)];
       currentProject.addList(listTitleInput.value)
       UtilityHandler.save();
-      RenderHandler.renderProject(listContainer, addListBtn, UtilityHandler.createListCollectionDom(currentProject));
+      RenderHandler.render(listContainer, addListBtn, UtilityHandler.createListCollectionDom(currentProject));
       let listIndex = currentProject.listCollection.length - 1;
       updateCurrentProject(currentProject, sidebar.querySelector(`li[data-index="${list.indexOf(currentProject)}"]`));
       updateCurrentList(currentProject.listCollection[listIndex], document.querySelector(`li[data-list-index="${listIndex}"]`));
@@ -171,7 +171,7 @@ const DomHandler = (function() {
       if (Array.from(event.target.classList).includes("del-list-btn")) {
         UtilityHandler.deleteObject(Number(li?.dataset.listIndex), currentProject.listCollection);
         UtilityHandler.save();
-        RenderHandler.renderProject(listContainer, addListBtn, UtilityHandler.createListCollectionDom(currentProject));
+        RenderHandler.render(listContainer, addListBtn, UtilityHandler.createListCollectionDom(currentProject));
         if (currentProject.listCollection.length !== 0) {
           let listIndex;
           if (li?.dataset.listIndex === "0") {
@@ -243,7 +243,7 @@ const DomHandler = (function() {
     taskProjectSelect.addEventListener("change", () => {
       currentProject = list[Number(taskProjectSelect.value)];
       taskListSelect.innerHTML = getListOption();
-      RenderHandler.renderProject(listContainer, addListBtn, UtilityHandler.createListCollectionDom(currentProject));
+      RenderHandler.render(listContainer, addListBtn, UtilityHandler.createListCollectionDom(currentProject));
     })
     cancelTaskBtn.addEventListener("click", () => {
       if (isEditing) return;
@@ -252,7 +252,7 @@ const DomHandler = (function() {
         return;
       }
       updateCurrentProject(tempCurrentProject, domProject);
-      RenderHandler.renderProject(listContainer, addListBtn, UtilityHandler.createListCollectionDom(currentProject));
+      RenderHandler.render(listContainer, addListBtn, UtilityHandler.createListCollectionDom(currentProject));
       updateCurrentList(tempCurrentList, document.querySelector(`li[data-list-index="${currentProject.listCollection.indexOf(tempCurrentList)}"]`));
     })
   }
@@ -282,13 +282,13 @@ const DomHandler = (function() {
       if (quickAction === "all") {
         RenderHandler.renderAllToDos(toDoContainer, addTaskBtn, list);
       } else if (quickAction === "important") {
-        RenderHandler.renderList(toDoContainer, addTaskBtn, UtilityHandler.createFilteredToDoList("isImportant", true));
+        RenderHandler.render(toDoContainer, addTaskBtn, UtilityHandler.createFilteredToDoList("isImportant", true));
       } else {
-        RenderHandler.renderList(toDoContainer, addTaskBtn, UtilityHandler.createFilteredToDoList("hasBeenCompleted", quickAction === "completed"));
+        RenderHandler.render(toDoContainer, addTaskBtn, UtilityHandler.createFilteredToDoList("hasBeenCompleted", quickAction === "completed"));
       }
       asideHeading.textContent = quickAction.slice(0, 1).toUpperCase().concat(quickAction.slice(1)) + " Tasks";
     } else {
-      RenderHandler.renderList(toDoContainer, addTaskBtn, UtilityHandler.createToDoListDom(currentProject, currentList));
+      RenderHandler.render(toDoContainer, addTaskBtn, UtilityHandler.createToDoListDom(currentProject, currentList));
     }
   }
   const toggleSelectElements = () => {
@@ -338,10 +338,10 @@ const DomHandler = (function() {
   }
   const init = () => {
     if (list.length < 1) return;
-    RenderHandler.renderProjectList(projectContainer, addProjectBtn, UtilityHandler.createProjectListDom());
+    RenderHandler.render(projectContainer, addProjectBtn, UtilityHandler.createProjectListDom());
     updateCurrentProject(list[0], document.querySelector(`[data-index="0"]`));
     if (currentProject.listCollection.length < 1) return;
-    RenderHandler.renderProject(listContainer, addListBtn, UtilityHandler.createListCollectionDom(currentProject))
+    RenderHandler.render(listContainer, addListBtn, UtilityHandler.createListCollectionDom(currentProject))
     updateCurrentList(currentProject.listCollection[0], document.querySelector(`li[data-list-index="0"]`));
     renderToDos();
   }
