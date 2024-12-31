@@ -1,4 +1,4 @@
-import { ProjectList, listCreator } from "./barrelModule";
+import { ProjectList, listCreator, toDoCreator } from "./barrelModule";
 import editIcon from "./images/edit-svgrepo-com.svg";
 import { format } from "date-fns";
 export const UtilityHandler = (function() {
