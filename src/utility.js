@@ -2,7 +2,7 @@ import { ProjectList, listCreator, toDoCreator } from "./barrelModule";
 import editIcon from "./images/edit-svgrepo-com.svg";
 import { format } from "date-fns";
 export const UtilityHandler = (function() {
-  const priorities = ["high", "med", "low"];
+  const priorities = ["high", "medium", "low"];
   const deleteObject = (objectIndex, array) => {
     array.splice(objectIndex, 1);
   }
@@ -86,7 +86,7 @@ export const UtilityHandler = (function() {
       if (toDo === null || toDo.isImportant !== onlyForImportant) {
         return;
       }
-      toDoList += `<article class="p-${priorities[toDo.priority]}" data-task-index="${index}" data-list-index="${listIndex}" data-project-index="${projectIndex}">
+      toDoList += `<article class="p-${priorities[toDo.priority]} ${toDo.hasBeenCompleted ? "completed" : ""}" data-task-index="${index}" data-list-index="${listIndex}" data-project-index="${projectIndex}">
 <h4>${toDo.title}</h4>
 <p class="description">${toDo.description}</p>
 <hr>

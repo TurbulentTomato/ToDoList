@@ -121,11 +121,15 @@ main {
     position: relative;
     max-width: 80ch;
 
+    &.completed {
+      color: #999;
+    }
+
     &.p-high {
       --priority-color: #FF0A54;
     }
 
-    &.p-med {
+    &.p-medium {
       --priority-color: #FFE45E;
     }
 
