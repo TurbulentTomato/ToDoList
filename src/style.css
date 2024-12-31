@@ -16,6 +16,7 @@ body {
   width: 100vw;
   min-height: 100vh;
   display: flex;
+  flex-direction: column;
 }
 
 .container {
@@ -234,5 +235,24 @@ main.flex {
 
   * {
     flex-shrink: 0;
+  }
+}
+
+footer {
+  height: 60px;
+  background-color: #FFF1E6;
+  border-top: 2px solid;
+  display: grid;
+  place-content: center;
+
+  a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    font-size: 1.3rem;
+    text-decoration: none;
+    color: #000;
+    font-weight: 600;
   }
 }
