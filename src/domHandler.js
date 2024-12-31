@@ -40,6 +40,9 @@ export const DomHandler = (function() {
   let domProject = null; //holds the li which refers to current project
   let domList = null; //like domProject but for currentList
   const asideHeading = document.querySelector("aside h1");
+  const addTaskForm = document.querySelector("#add-task-form");
+  const addListForm = document.querySelector("#add-list-form");
+  const addProjectForm = document.querySelector("#add-project-form");
   const bindEvents = () => {
     addTaskBtn.addEventListener("click", () => {
       if (currentProject === null || currentProject.listCollection.length === 0) {
@@ -89,6 +92,7 @@ export const DomHandler = (function() {
         asideHeading.textContent += `: ${currentList.title}`;
       }
       addProjectModal.close();
+      addProjectForm.reset();
     })
     projectContainer.addEventListener("click", (event) => {
       if (event.target.id === "add-project-btn" || event.target.parentNode.id === "add-project-btn") return
@@ -145,6 +149,7 @@ export const DomHandler = (function() {
       updateCurrentList(currentProject.listCollection[listIndex], document.querySelector(`li[data-list-index="${listIndex}"]`));
       renderToDos();
       addListModal.close();
+      addListForm.reset();
     })
     listContainer.addEventListener("click", (event) => {
       if (event.target === addListBtn) return;
@@ -186,6 +191,7 @@ export const DomHandler = (function() {
       UtilityHandler.save();
       renderToDos();
       addTaskModal.close();
+      addTaskForm.reset();
     })
     toDoContainer.addEventListener("click", (event) => {
       if (event.target === addTaskBtn || event.target === toDoContainer) return;
