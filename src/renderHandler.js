@@ -1,3 +1,4 @@
+import { UtilityHandler } from "./barrelModule.js";
 export const RenderHandler = (function() {
   const render = (container, addBtn, list) => {
     container.innerHTML = list;
