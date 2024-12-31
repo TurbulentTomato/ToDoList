@@ -1,4 +1,5 @@
 import { ProjectList, UtilityHandler, RenderHandler, list } from "./barrelModule";
+import { format } from "date-fns";
 export const DomHandler = (function() {
   const sidebar = document.querySelector("#sidebar");
   const quickActionContainer = document.querySelector(".quick-actions");
@@ -62,6 +63,7 @@ export const DomHandler = (function() {
       isEditing = false;
       toggleSelectElements();
       taskFormHeading.textContent = "Add New Task";
+      dueDateInput.value = format(new Date(), "yyyy-MM-dd");
       addTaskModal.showModal()
     })
     addProjectBtn.addEventListener("click", () => {
