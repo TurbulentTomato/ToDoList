@@ -55,24 +55,6 @@ export const UtilityHandler = (function() {
     let listIndex = project.listCollection.indexOf(list);
     let toDoList = createArticles({ projectIndex, listIndex, list }, true);
     toDoList += createArticles({ projectIndex, listIndex, list }, false);
-    /*do {
-      list.toDos.forEach((toDo, index) => {
-        if (toDo === null || toDo.isImportant !== renderingImportant) {
-          return;
-        }
-        toDoList += `<article data-task-index="${index}" data-list-index="${listIndex}" data-project-index="${projectIndex}">
-<h4>${toDo.title}</h4>
-<p>${toDo.description}</p>
-<p>Due-Date: ${toDo.dueDate}</p>
-<p>Priority: ${toDo.priority}</p>
-<label><input type="checkbox" class="toggle-has-been-completed" ${toDo.hasBeenCompleted ? "checked" : ""}> ${toDo.hasBeenCompleted ? "Completed" : "Pending"}</label>
-<label><input type="checkbox" class="toggle-is-important"${toDo.isImportant ? "checked" : ""}> Important</label>
-<button type="button" class="del-task-btn">×</button>
-<button type="button" class="edit-task-btn">Edit</button>
-</article>`
-      })
-      renderingImportant = (renderingImportant) ? false : null;
-    } while (renderingImportant !== null)*/
     return toDoList;
   }
   const createFilteredToDoList = (property, value) => {

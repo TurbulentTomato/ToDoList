@@ -186,7 +186,6 @@ const DomHandler = (function() {
           return;
         }
       } else if (event.target.tagName.toLowerCase() === "button") {
-        console.log("rendering todos")
         updateCurrentList(currentProject.listCollection[Number(li?.dataset.listIndex)], li);
       }
       renderToDos();
@@ -203,7 +202,6 @@ const DomHandler = (function() {
         currentList.addToDo(createToDoFromInput());
       }
       UtilityHandler.save();
-      console.log(list)
       renderToDos();
       addTaskModal.close();
     })
@@ -354,9 +352,3 @@ const DomHandler = (function() {
 })();
 DomHandler.bindEvents();
 DomHandler.init();
-//attaching functions and other things to window
-//so i can use them in dev-tools console
-window.ProjectList = ProjectList;
-window.toDoCreator = toDoCreator
-window.UtilityHandler = UtilityHandler
-window.RenderHandler = RenderHandler
