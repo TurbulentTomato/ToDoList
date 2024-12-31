@@ -50,7 +50,6 @@ export const UtilityHandler = (function() {
     }, ``)
   }
   const createToDoListDom = (project, list) => {
-    let renderingImportant = true;
     let projectIndex = ProjectList.getList().indexOf(project);
     let listIndex = project.listCollection.indexOf(list);
     let toDoList = createArticles({ projectIndex, listIndex, list }, true);
