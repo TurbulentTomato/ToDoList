@@ -61,10 +61,10 @@ export const DomHandler = (function() {
       taskFormHeading.textContent = "Add New Task";
       addTaskModal.showModal()
     })
-    addProjectBtn.addEventListener("click", (event) => {
+    addProjectBtn.addEventListener("click", () => {
       addProjectModal.showModal();
     })
-    addListBtn.addEventListener("click", (event) => {
+    addListBtn.addEventListener("click", () => {
       listProjectSelect.innerHTML = getProjectOption(false);
       addListModal.showModal();
     })
