@@ -232,7 +232,10 @@ export const DomHandler = (function() {
       RenderHandler.render(listContainer, addListBtn, UtilityHandler.createListCollectionDom(currentProject));
     })
     cancelTaskBtn.addEventListener("click", () => {
-      if (isEditing) return;
+      if (isEditing) {
+        addTaskForm.reset();
+        return;
+      }
       if (quickAction) {
         listContainer.innerHTML = "";
         return;
